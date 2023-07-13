@@ -16,7 +16,7 @@ const ProductCard = ({ product }) => {
   return (
     <Card>
       <NextLink href={`/product-preview/${product.id}`}>
-        <CardMedia component="img" height="200" image={images[0]} alt={name} />
+        <CardMedia component="img" image={images[0]} alt={name} />
         <CardContent>
           <Typography variant="h5" component="div">
             {name}

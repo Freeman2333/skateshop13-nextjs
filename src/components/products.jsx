@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import ProductCard from "./product-card";
 
 const products = [
@@ -91,17 +91,28 @@ const products = [
   // Total of 20 products
 ];
 
-const Products = () => {
+const Products = ({ title }) => {
   return (
-    <div>
-      <Grid container spacing={2}>
+    <>
+      {title && (
+        <Typography
+          variant="h4"
+          component="h4"
+          fontWeight={600}
+          textTransform={"capitalize"}
+          marginBottom={4}
+        >
+          {title}
+        </Typography>
+      )}
+      <Grid container spacing={2} marginBottom={5}>
         {products.map((product) => (
           <Grid item xs={12} sm={6} md={3} key={product.name}>
             <ProductCard product={product} />
           </Grid>
         ))}
       </Grid>
-    </div>
+    </>
   );
 };
 

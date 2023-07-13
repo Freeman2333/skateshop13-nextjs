@@ -9,7 +9,6 @@ const NavItem = ({ category }) => {
 
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
-    console.log(event.currentTarget);
   };
 
   const handlePopoverClose = () => {
