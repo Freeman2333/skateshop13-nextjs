@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { productCategories } from "@/config/products";
+import { productCategories } from "@/config/products.consts";
 import NextLink from "./next-link";
 
 const ProductCategoriesGrid = () => {
