@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AppBar, Toolbar, Typography, Grid, Box, Stack } from "@mui/material";
 
 import { Icons } from "@/components/icons";
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/config/site.consts";
 import NavItem from "./nav-item";
 import Searchbar from "@/components/searchbar";
 

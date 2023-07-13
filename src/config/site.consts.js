@@ -1,4 +1,4 @@
-import { productCategories } from "./products";
+import { productCategories } from "./products.consts";
 
 const links = {
   twitter: "https://twitter.com/sadmann17",
