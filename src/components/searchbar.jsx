@@ -3,13 +3,6 @@ import React, { useState } from "react";
 import { List, ListItem, InputBase, Box } from "@mui/material";
 import { ClickAwayListener } from "@mui/base";
 import { styled, alpha } from "@mui/material/styles";
-// import AppBar from "@mui/material/AppBar";
-// import Box from "@mui/material/Box";
-// import Toolbar from "@mui/material/Toolbar";
-// import IconButton from "@mui/material/IconButton";
-// import Typography from "@mui/material/Typography";
-// import InputBase from "@mui/material/InputBase";
-// import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 
 import NextLink from "@/components/next-link";
@@ -43,7 +36,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -59,33 +51,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const SearchBar = () => {
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+
   const handleSearchChange = (event) => {
     const newSearchText = event.target.value;
     setSearchText(newSearchText);
 
     // Perform search logic here
-    const results = performSearch(newSearchText);
+    const results = [];
     setSearchResults(results);
-  };
-
-  // Example search logic
-  const performSearch = (query) => {
-    // Replace with your actual search implementation
-    // This is just a placeholder
-    const data = [
-      "Apple",
-      "Banana",
-      "Cherry",
-      "Durian",
-      "Elderberry",
-      "Fig",
-      "Grape",
-      "Honeydew",
-    ];
-
-    return data.filter((item) =>
-      item.toLowerCase().includes(query.toLowerCase())
-    );
   };
 
   return (
