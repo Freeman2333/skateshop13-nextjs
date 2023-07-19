@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
 
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/config/site.consts";
 import PageHeader from "@/components/page-header";
 import Products from "@/components/products";
 import Pagination from "@/components/pagination";
