@@ -23,7 +23,6 @@ const ProductPage = async ({ params }) => {
 
   const [product] = await query({ query: productQuery, values: [productId] });
 
-  console.log({ product });
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} lg={6}>
