@@ -1,15 +1,9 @@
 import Image from "next/image";
-import {
-  Box,
-  Typography,
-  Divider,
-  Grid,
-  Button,
-  TextField,
-  Chip,
-} from "@mui/material";
+import { Box, Typography, Divider, Grid, Chip } from "@mui/material";
 
 import { query } from "@/db";
+
+import ProductControls from "@/components/product-controls";
 
 const ProductPage = async ({ params }) => {
   const { productId } = params;
@@ -41,23 +35,7 @@ const ProductPage = async ({ params }) => {
           </Typography>
           <Chip label={product.categoryName} color="primary" />
           <Divider sx={{ my: 4 }} />
-          <Grid container spacing={2} direction={"column"} maxWidth={"240px"}>
-            <Grid item xs={6} md={4}>
-              <TextField
-                type="number"
-                label="Quantity"
-                variant="outlined"
-                inputProps={{ min: 0 }}
-                size="small"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={6} md={4}>
-              <Button variant="contained" color="primary" fullWidth>
-                Add to Cart
-              </Button>
-            </Grid>
-          </Grid>
+          <ProductControls product={product} />
           <Divider sx={{ my: 4 }} />
           <Typography variant="body1">{product.description}</Typography>
         </Box>

@@ -16,7 +16,7 @@ const MainNav = ({ items }) => {
           <Typography
             variant="h6"
             component={Stack}
-            direction="horizontal"
+            direction="row"
             sx={{
               marginRight: 5,
               alignItems: "center",

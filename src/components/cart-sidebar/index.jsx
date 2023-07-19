@@ -7,8 +7,10 @@ import {
   Typography,
   Divider,
   Button,
+  Badge,
 } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
+import { observer } from "mobx-react-lite";
 
 import { ShoppingCart } from "lucide-react";
 import {
@@ -18,9 +20,12 @@ import {
   DrawerFooterStyle,
 } from "./styles";
 import CartItem from "./cart-item";
+import cartStore from "@/store/cart.store";
 
-const Cart = () => {
+const Cart = observer(() => {
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const { totalCount, items, totalPrice } = cartStore;
 
   const handleCartOpen = () => {
     setIsCartOpen(!isCartOpen);
@@ -33,7 +38,9 @@ const Cart = () => {
         aria-label="Open Cart"
         onClick={handleCartOpen}
       >
-        <ShoppingCart />
+        <Badge badgeContent={totalCount} color="error">
+          <ShoppingCart />
+        </Badge>
       </IconButton>
 
       <Drawer
@@ -54,14 +61,16 @@ const Cart = () => {
           </Box>
           <Divider />
           <Box marginTop="20px">
-            {[1, 2, 3].map((item) => (
-              <CartItem key={item.id} item={item} />
-            ))}
+            {!items.length
+              ? "Cart is empty"
+              : items.map((item, index) => (
+                  <CartItem key={item.id + index} item={item} index={index} />
+                ))}
           </Box>
           <Divider sx={{ marginTop: "auto" }} />
           <Box sx={DrawerFooterStyle}>
             <Typography variant="subtitle1">Total price:</Typography>
-            <Typography variant="subtitle1">${43}</Typography>
+            <Typography variant="subtitle1">${totalPrice}</Typography>
           </Box>
           <Button variant="contained" color="primary" fullWidth>
             Checkout
@@ -70,6 +79,6 @@ const Cart = () => {
       </Drawer>
     </>
   );
-};
+});
 
 export default Cart;

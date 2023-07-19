@@ -5,56 +5,47 @@ import { Plus, Minus } from "lucide-react";
 import { Delete } from "@mui/icons-material";
 
 import { cartItemWrapper, cartItemLeft, cartItemRight } from "./style";
-import { useState } from "react";
+import CartStore from "@/store/cart.store";
 
-const CartItem = () => {
-  const [quantity, setQuantity] = useState(1);
-
-  const handleQuantityDecrease = () => {
-    setQuantity((num) => num - 1);
-  };
-
-  const handleQuantityIncrease = () => {
-    setQuantity((num) => num + 1);
-  };
-
+const CartItem = ({ item, index }) => {
   return (
     <Box sx={cartItemWrapper}>
       <Box sx={cartItemLeft}>
-        <Image
-          src="http://dummyimage.com/600x400.png/dddddd/000000"
-          width={64}
-          height={64}
-          alt="Product Image"
-        />
+        <Image src={item.image} width={64} height={64} alt="Product Image" />
         <Box marginLeft="20px">
-          <Typography variant="subtitle1">{"product.name"}</Typography>
+          <Typography variant="subtitle1">{item.name.slice(0, 14)}</Typography>
           <Typography variant="subtitle2" color={"text.secondary"}>
-            $ {"product.price"}
+            $ {item.price}
           </Typography>
-          <Typography variant="body2" color={"text.secondary"}>
-            {"product.category"}
-          </Typography>
+          {/* <Typography variant="body2" color={"text.secondary"}>
+            {item.category}
+          </Typography> */}
         </Box>
       </Box>
       <Box sx={cartItemRight}>
-        <IconButton onClick={() => handleQuantityDecrease()} variant="outlined">
+        <IconButton
+          onClick={() => CartStore.minusCartItem(index)}
+          variant="outlined"
+        >
           <Minus size={"12px"} />
         </IconButton>
         <TextField
           type="number"
           variant="outlined"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
+          value={item.countItem}
+          onChange={(e) => CartStore.updateCartItem(+e.target.value, index)}
           inputProps={{ min: 0 }}
           sx={{ width: 70, textAlign: "center" }}
         />
-        <IconButton onClick={() => handleQuantityIncrease()} variant="outlined">
+        <IconButton
+          onClick={() => CartStore.plusCartItem(index)}
+          variant="outlined"
+        >
           <Plus size={"12px"} />
         </IconButton>
 
         <IconButton
-          onClick={() => handleRemoveProduct(product.id)}
+          onClick={() => CartStore.removeCartItem(index)}
           variant="outlined"
         >
           <Delete size={"12px"} />
