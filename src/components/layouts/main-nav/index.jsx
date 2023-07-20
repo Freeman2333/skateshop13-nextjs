@@ -19,6 +19,7 @@ const MainNav = ({ items }) => {
               marginRight: 5,
               alignItems: "center",
               gap: 1,
+              color: "#fff !important",
               textDecoration: "none !important",
               "& svg": {
                 display: "block",

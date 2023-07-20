@@ -1,9 +1,8 @@
 import React from "react";
 import { Grid, Typography } from "@mui/material";
 import ProductCard from "./product-card";
-import { products } from "@/config/products.consts";
 
-const Products = ({ title }) => {
+const Products = ({ title, products }) => {
   return (
     <>
       {title && (
@@ -18,7 +17,7 @@ const Products = ({ title }) => {
         </Typography>
       )}
       <Grid container spacing={2} marginBottom={5}>
-        {products.map((product) => (
+        {(products || []).map((product) => (
           <Grid item xs={12} sm={6} md={3} key={product.name}>
             <ProductCard product={product} />
           </Grid>

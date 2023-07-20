@@ -1,10 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { List, ListItem, Box } from "@mui/material";
 import { ClickAwayListener } from "@mui/base";
 import SearchIcon from "@mui/icons-material/Search";
 
 import NextLink from "@/components/next-link";
+import { useDebounce } from "@/hooks/use-debounce";
+import { filterProducts as filterProductsAction } from "@/app/_actions/product";
 import {
   SearchIconWrapper,
   StyledInputBase,
@@ -13,17 +15,25 @@ import {
 } from "./style";
 
 const SearchBar = () => {
-  const [searchText, setSearchText] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
-  const handleSearchChange = (event) => {
-    const newSearchText = event.target.value;
-    setSearchText(newSearchText);
+  const debouncedQuery = useDebounce(searchQuery);
 
-    // Perform search logic here
-    const results = [];
-    setSearchResults(results);
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
   };
+
+  useEffect(() => {
+    const filterProducts = async () => {
+      const data = await filterProductsAction(debouncedQuery);
+      setSearchResults(data);
+    };
+
+    if (debouncedQuery.length > 0) {
+      filterProducts();
+    }
+  }, [debouncedQuery]);
 
   return (
     <Box position={"relative"}>
@@ -35,16 +45,18 @@ const SearchBar = () => {
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
           label="Search"
-          value={searchText}
+          value={searchQuery}
           onChange={handleSearchChange}
         />
       </Search>
-      {!!searchResults.length && (
+      {!!searchResults.length && !!debouncedQuery.length && (
         <ClickAwayListener onClickAway={() => setSearchResults([])}>
           <List sx={listStyles}>
-            {searchResults.map((result, index) => (
+            {searchResults.map((product, index) => (
               <ListItem key={index}>
-                <NextLink href={result}>{result}</NextLink>
+                <NextLink href={`/product/${product.id}`}>
+                  {product.name}
+                </NextLink>
               </ListItem>
             ))}
           </List>

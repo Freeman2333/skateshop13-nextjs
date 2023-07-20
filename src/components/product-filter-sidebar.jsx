@@ -15,14 +15,20 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDebounce } from "@/hooks/use-debounce";
 import { createQueryString } from "@/utils";
 import { Close as CloseIcon } from "@mui/icons-material";
+import { PRODUCTS_PRICE_RANGE } from "@/constants";
 
 const ProductFilterSidebar = ({ categories }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const priceRangeParams = searchParams.get("price_range");
+  const priceRangeValue = priceRangeParams
+    ? priceRangeParams.split("-")
+    : PRODUCTS_PRICE_RANGE;
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [priceRange, setPriceRange] = useState([0, 500]);
+  const [priceRange, setPriceRange] = useState(priceRangeValue);
   const [selectedCategories, setSelectedCategories] = useState([]);
 
   const debouncedPrice = useDebounce(priceRange);
@@ -46,7 +52,6 @@ const ProductFilterSidebar = ({ categories }) => {
   };
 
   const handleCategoryChange = (event, newValue) => {
-    console.log(newValue);
     setSelectedCategories(newValue);
   };
 
@@ -72,7 +77,7 @@ const ProductFilterSidebar = ({ categories }) => {
     router.push(
       `${pathname}?${createQueryString(searchParams, {
         categories: selectedCategories?.length
-          ? selectedCategories.map((c) => c.title).join(".")
+          ? selectedCategories.map((c) => c.value).join(",")
           : null,
       })}`
     );
@@ -111,7 +116,7 @@ const ProductFilterSidebar = ({ categories }) => {
             onChange={handlePriceRangeChange}
             valueLabelDisplay="auto"
             min={0}
-            max={100}
+            max={500}
             aria-labelledby="price-range-slider"
             style={{ marginBottom: "16px" }}
           />
@@ -119,7 +124,9 @@ const ProductFilterSidebar = ({ categories }) => {
             <TextField
               label="Min Price"
               type="number"
-              min={0}
+              inputProps={{
+                min: PRODUCTS_PRICE_RANGE[0],
+              }}
               fullWidth
               value={priceRange[0]}
               onChange={handleMinPriceChange}
@@ -128,7 +135,9 @@ const ProductFilterSidebar = ({ categories }) => {
             <TextField
               label="Max Price"
               type="number"
-              max={500}
+              inputProps={{
+                max: PRODUCTS_PRICE_RANGE[1],
+              }}
               fullWidth
               value={priceRange[1]}
               onChange={handleMaxPriceChange}
@@ -138,10 +147,16 @@ const ProductFilterSidebar = ({ categories }) => {
           <Divider style={{ margin: "16px 0" }} />
           <Autocomplete
             multiple
-            options={categories}
+            options={categories.map((cat) => ({
+              value: cat.id,
+              label: cat.name.charAt(0).toUpperCase() + cat.name.slice(1),
+            }))}
             value={selectedCategories}
             onChange={handleCategoryChange}
-            getOptionLabel={(option) => option.title}
+            getOptionLabel={(option) => option.label}
+            isOptionEqualToValue={(option, value) =>
+              option.value === value.value
+            }
             filterSelectedOptions
             renderInput={(params) => (
               <TextField

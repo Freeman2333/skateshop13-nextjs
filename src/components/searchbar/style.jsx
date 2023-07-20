@@ -42,9 +42,10 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const listStyles = {
+export const listStyles = {
   position: "absolute",
   background: "white",
   color: "black",
   width: "100%",
+  zIndex: "2",
 };

@@ -11,12 +11,12 @@ import {
 import NextLink from "./next-link";
 
 const ProductCard = ({ product }) => {
-  const { name, price, images } = product;
+  const { name, price, image } = product;
 
   return (
     <Card>
       <NextLink href={`/product-preview/${product.id}`}>
-        <CardMedia component="img" image={images[0]} alt={name} />
+        <CardMedia component="img" image={image} alt={name} />
         <CardContent>
           <Typography variant="h5" component="div">
             {name}
