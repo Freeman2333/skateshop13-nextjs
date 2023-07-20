@@ -65,6 +65,11 @@ const ProductFilterSidebar = ({ categories }) => {
     setSelectedCategories([]);
   };
 
+  const categoriesOptions = categories.map((cat) => ({
+    value: cat.id,
+    label: cat.name.charAt(0).toUpperCase() + cat.name.slice(1),
+  }));
+
   useEffect(() => {
     const [min, max] = debouncedPrice;
     router.push(
@@ -144,10 +149,7 @@ const ProductFilterSidebar = ({ categories }) => {
           <Divider style={{ margin: "16px 0" }} />
           <Autocomplete
             multiple
-            options={categories.map((cat) => ({
-              value: cat.id,
-              label: cat.name.charAt(0).toUpperCase() + cat.name.slice(1),
-            }))}
+            options={categoriesOptions}
             value={selectedCategories}
             onChange={handleCategoryChange}
             getOptionLabel={(option) => option.label}
