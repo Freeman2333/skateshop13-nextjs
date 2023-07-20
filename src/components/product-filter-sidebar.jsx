@@ -15,8 +15,7 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDebounce } from "@/hooks/use-debounce";
 import { createQueryString } from "@/utils";
 import { Close as CloseIcon } from "@mui/icons-material";
-
-const PRODUCTS_PRICE_RANGE = [0, 500];
+import { PRODUCTS_PRICE_RANGE } from "@/constants";
 
 const ProductFilterSidebar = ({ categories }) => {
   const router = useRouter();
@@ -130,7 +129,9 @@ const ProductFilterSidebar = ({ categories }) => {
             <TextField
               label="Min Price"
               type="number"
-              min={0}
+              inputProps={{
+                min: PRODUCTS_PRICE_RANGE[0],
+              }}
               fullWidth
               value={priceRange[0]}
               onChange={handleMinPriceChange}
@@ -139,7 +140,9 @@ const ProductFilterSidebar = ({ categories }) => {
             <TextField
               label="Max Price"
               type="number"
-              max={500}
+              inputProps={{
+                max: PRODUCTS_PRICE_RANGE[1],
+              }}
               fullWidth
               value={priceRange[1]}
               onChange={handleMaxPriceChange}
