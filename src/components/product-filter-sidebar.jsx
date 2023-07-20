@@ -15,8 +15,7 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDebounce } from "@/hooks/use-debounce";
 import { createQueryString } from "@/utils";
 import { Close as CloseIcon } from "@mui/icons-material";
-
-const PRODUCTS_PRICE_RANGE = [0, 500];
+import { PRODUCTS_PRICE_RANGE } from "@/constants";
 
 const ProductFilterSidebar = ({ categories }) => {
   const router = useRouter();
@@ -64,6 +63,11 @@ const ProductFilterSidebar = ({ categories }) => {
     setPriceRange([0, 500]);
     setSelectedCategories([]);
   };
+
+  const categoriesOptions = categories.map((cat) => ({
+    value: cat.id,
+    label: cat.name.charAt(0).toUpperCase() + cat.name.slice(1),
+  }));
 
   useEffect(() => {
     const [min, max] = debouncedPrice;
@@ -125,7 +129,9 @@ const ProductFilterSidebar = ({ categories }) => {
             <TextField
               label="Min Price"
               type="number"
-              min={0}
+              inputProps={{
+                min: PRODUCTS_PRICE_RANGE[0],
+              }}
               fullWidth
               value={priceRange[0]}
               onChange={handleMinPriceChange}
@@ -134,7 +140,9 @@ const ProductFilterSidebar = ({ categories }) => {
             <TextField
               label="Max Price"
               type="number"
-              max={500}
+              inputProps={{
+                max: PRODUCTS_PRICE_RANGE[1],
+              }}
               fullWidth
               value={priceRange[1]}
               onChange={handleMaxPriceChange}
@@ -144,10 +152,7 @@ const ProductFilterSidebar = ({ categories }) => {
           <Divider style={{ margin: "16px 0" }} />
           <Autocomplete
             multiple
-            options={categories.map((cat) => ({
-              value: cat.id,
-              label: cat.name.charAt(0).toUpperCase() + cat.name.slice(1),
-            }))}
+            options={categoriesOptions}
             value={selectedCategories}
             onChange={handleCategoryChange}
             getOptionLabel={(option) => option.label}

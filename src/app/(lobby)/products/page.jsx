@@ -5,53 +5,39 @@ import PageHeader from "@/components/page-header";
 import Products from "@/components/products";
 import Pagination from "@/components/pagination";
 import ProductFilterSidebar from "@/components/product-filter-sidebar";
-import { query } from "@/db";
+import { getProductsList } from "@/services/product";
+import { getCategories } from "@/services/categories";
+import { PRODUCTS_PRICE_RANGE } from "@/constants";
 
 const PAGE_SIZE = 8;
 
 const ProductsPage = async ({ searchParams }) => {
   const { page, price_range, categories: categoriesIds } = searchParams;
 
-  const minPrice = price_range ? price_range.split("-")[0] : String(0);
-  const maxPrice = price_range ? price_range.split("-")[1] : String(500);
-
-  const categories = await query({
-    query: "SELECT * FROM category",
-  });
-
+  const isPriceRangeCorrect =
+    price_range &&
+    +price_range > PRODUCTS_PRICE_RANGE[0] &&
+    +price_range < PRODUCTS_PRICE_RANGE[1];
+  const minPrice = isPriceRangeCorrect ? price_range.split("-")[0] : String(0);
+  const maxPrice = isPriceRangeCorrect
+    ? price_range.split("-")[1]
+    : String(500);
   const offset = String(PAGE_SIZE * ((page || 1) - 1));
   const limit = String(PAGE_SIZE);
 
-  // Create categories placeholder for SQL query
-  const categoriesIdsPlaceholders =
-    categoriesIds &&
-    categoriesIds
-      .split(",")
-      .map(() => "?")
-      .join(",");
+  const categories = await getCategories();
 
-  // get all products based on conditions for pagination
-  const filteredProductQuery = {
-    query: categoriesIds
-      ? `SELECT * FROM product WHERE price BETWEEN ? AND ? AND categoryid IN (${categoriesIdsPlaceholders})`
-      : "SELECT * FROM product WHERE price BETWEEN ? AND ?",
-    values: categoriesIds
-      ? [minPrice, maxPrice, ...categoriesIds.split(",")]
-      : [minPrice, maxPrice],
-  };
-  const filteredProducts = await query(filteredProductQuery);
+  const products = await getProductsList(
+    minPrice,
+    maxPrice,
+    categoriesIds,
+    offset,
+    limit
+  );
 
-  //Get products for a page
-  const paginatedProductQuery = {
-    query: categoriesIds
-      ? `SELECT * FROM product WHERE price BETWEEN ? AND ? AND categoryid IN (${categoriesIdsPlaceholders}) LIMIT ? OFFSET ?`
-      : "SELECT * FROM product WHERE price BETWEEN ? AND ? LIMIT ? OFFSET ?",
-    values: categoriesIds
-      ? [minPrice, maxPrice, ...categoriesIds.split(","), limit, offset]
-      : [minPrice, maxPrice, limit, offset],
-  };
-
-  const paginatedProducts = await query(paginatedProductQuery);
+  if (!products?.length) {
+    return "no products found";
+  }
 
   return (
     <Box paddingBottom={4}>
@@ -60,8 +46,8 @@ const ProductsPage = async ({ searchParams }) => {
         description="Buy products from our stores"
       />
       <ProductFilterSidebar categories={categories} />
-      <Products products={paginatedProducts} />
-      <Pagination count={Math.ceil(filteredProducts.length / PAGE_SIZE)} />
+      <Products products={products} />
+      <Pagination count={Math.ceil(products[0].total_count / PAGE_SIZE)} />
     </Box>
   );
 };
