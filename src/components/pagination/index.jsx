@@ -4,6 +4,7 @@ import { Pagination as MUIPagination } from "@mui/material";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 import { createQueryString } from "@/utils";
+import { paginationStyle } from "./styles";
 
 const Pagination = ({ count }) => {
   const searchParams = useSearchParams();
@@ -22,7 +23,7 @@ const Pagination = ({ count }) => {
         setPage(page);
         router.push(`${pathname}?${createQueryString(searchParams, { page })}`);
       }}
-      sx={{ display: "flex", justifyContent: "center" }}
+      sx={paginationStyle}
     />
   );
 };

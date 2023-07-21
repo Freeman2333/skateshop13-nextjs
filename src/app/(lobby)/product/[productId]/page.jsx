@@ -9,21 +9,14 @@ import {
   Chip,
 } from "@mui/material";
 
-import { query } from "@/db";
+import { dividerStyle } from "./styles";
+import { getSingleProduct } from "@/services/product";
 
 const ProductPage = async ({ params }) => {
   const { productId } = params;
 
-  const productQuery = `
-        SELECT p.*, c.name AS categoryName
-        FROM product p
-        JOIN category c ON p.categoryid = c.id
-        WHERE p.id = ?;
-  `;
+  const product = await getSingleProduct(productId);
 
-  const [product] = await query({ query: productQuery, values: [productId] });
-
-  console.log({ product });
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} lg={6}>
@@ -41,7 +34,7 @@ const ProductPage = async ({ params }) => {
             $ {product.price}
           </Typography>
           <Chip label={product.categoryName} color="primary" />
-          <Divider sx={{ my: 4 }} />
+          <Divider sx={dividerStyle} />
           <Grid container spacing={2} direction={"column"} maxWidth={"240px"}>
             <Grid item xs={6} md={4}>
               <TextField
@@ -59,7 +52,7 @@ const ProductPage = async ({ params }) => {
               </Button>
             </Grid>
           </Grid>
-          <Divider sx={{ my: 4 }} />
+          <Divider sx={dividerStyle} />
           <Typography variant="body1">{product.description}</Typography>
         </Box>
       </Grid>
