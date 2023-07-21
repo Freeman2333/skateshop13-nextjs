@@ -26,3 +26,7 @@ export const DrawerFooterStyle = {
   alignItems: "center",
   p: 2,
 };
+
+export const bottomDividerStyle = {
+  marginTop: "auto",
+};

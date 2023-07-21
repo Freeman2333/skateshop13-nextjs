@@ -35,7 +35,6 @@ const CartItem = ({ item, index }) => {
           value={item.countItem}
           onChange={(e) => CartStore.updateCartItem(+e.target.value, index)}
           inputProps={{ min: 0 }}
-          sx={{ width: 70, textAlign: "center" }}
         />
         <IconButton
           onClick={() => CartStore.plusCartItem(index)}

@@ -18,6 +18,7 @@ import {
   DrawerHeaderStyle,
   CloseIconStyle,
   DrawerFooterStyle,
+  bottomDividerStyle,
 } from "./styles";
 import CartItem from "./cart-item";
 import cartStore from "@/store/cart.store";
@@ -67,7 +68,7 @@ const Cart = observer(() => {
                   <CartItem key={item.id + index} item={item} index={index} />
                 ))}
           </Box>
-          <Divider sx={{ marginTop: "auto" }} />
+          <Divider sx={bottomDividerStyle} />
           <Box sx={DrawerFooterStyle}>
             <Typography variant="subtitle1">Total price:</Typography>
             <Typography variant="subtitle1">${totalPrice}</Typography>
