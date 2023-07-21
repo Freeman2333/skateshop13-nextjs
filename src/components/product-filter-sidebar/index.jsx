@@ -16,6 +16,15 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { createQueryString } from "@/utils";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { PRODUCTS_PRICE_RANGE } from "@/constants";
+import {
+  innerBoxStyles,
+  closeButtonBoxStyles,
+  sliderStyles,
+  dividerStyles,
+  priceControlStyles,
+  bottomDividerStyles,
+  clearButtonStyles,
+} from "./styles";
 
 const ProductFilterSidebar = ({ categories }) => {
   const router = useRouter();
@@ -94,28 +103,14 @@ const ProductFilterSidebar = ({ categories }) => {
         Filter
       </Button>
       <Drawer anchor="right" open={isSidebarOpen} onClose={handleCloseSidebar}>
-        <Box
-          sx={{
-            width: "300px",
-            padding: "16px",
-            display: "flex",
-            flexDirection: "column",
-            height: "100%",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
+        <Box sx={innerBoxStyles}>
+          <Box sx={closeButtonBoxStyles}>
             <Typography variant="h6">Filters</Typography>
             <Button onClick={handleCloseSidebar}>
               <CloseIcon />
             </Button>
-          </div>
-          <Divider style={{ margin: "8px 0" }} />
+          </Box>
+          <Divider sx={dividerStyles} />
           <Slider
             value={priceRange}
             onChange={handlePriceRangeChange}
@@ -123,9 +118,9 @@ const ProductFilterSidebar = ({ categories }) => {
             min={0}
             max={500}
             aria-labelledby="price-range-slider"
-            style={{ marginBottom: "16px" }}
+            sx={sliderStyles}
           />
-          <div style={{ display: "flex" }}>
+          <Box sx={priceControlStyles}>
             <TextField
               label="Min Price"
               type="number"
@@ -135,7 +130,6 @@ const ProductFilterSidebar = ({ categories }) => {
               fullWidth
               value={priceRange[0]}
               onChange={handleMinPriceChange}
-              style={{ marginRight: "8px" }}
             />
             <TextField
               label="Max Price"
@@ -146,10 +140,9 @@ const ProductFilterSidebar = ({ categories }) => {
               fullWidth
               value={priceRange[1]}
               onChange={handleMaxPriceChange}
-              style={{ marginLeft: "8px" }}
             />
-          </div>
-          <Divider style={{ margin: "16px 0" }} />
+          </Box>
+          <Divider sx={bottomDividerStyles} />
           <Autocomplete
             multiple
             options={categoriesOptions}
@@ -171,7 +164,7 @@ const ProductFilterSidebar = ({ categories }) => {
           <Button
             variant="contained"
             onClick={clearFilters}
-            style={{ marginTop: "auto" }}
+            sx={clearButtonStyles}
           >
             Clear Filters
           </Button>

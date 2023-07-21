@@ -1,21 +1,15 @@
 import Image from "next/image";
 import { Box, Typography, Divider, Grid, Chip } from "@mui/material";
 
-import { query } from "@/db";
+import { dividerStyle } from "./styles";
+import { getSingleProduct } from "@/services/product";
 
 import ProductControls from "@/components/product-controls";
 
 const ProductPage = async ({ params }) => {
   const { productId } = params;
 
-  const productQuery = `
-        SELECT p.*, c.name AS categoryName
-        FROM product p
-        JOIN category c ON p.categoryid = c.id
-        WHERE p.id = ?;
-  `;
-
-  const [product] = await query({ query: productQuery, values: [productId] });
+  const product = await getSingleProduct(productId);
 
   return (
     <Grid container spacing={2}>
@@ -34,9 +28,9 @@ const ProductPage = async ({ params }) => {
             $ {product.price}
           </Typography>
           <Chip label={product.categoryName} color="primary" />
-          <Divider sx={{ my: 4 }} />
+          <Divider sx={dividerStyle} />
           <ProductControls product={product} />
-          <Divider sx={{ my: 4 }} />
+          <Divider sx={dividerStyle} />
           <Typography variant="body1">{product.description}</Typography>
         </Box>
       </Grid>
