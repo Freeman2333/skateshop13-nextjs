@@ -1,6 +1,6 @@
 import React from "react";
 import { render, act, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event"; // Import userEvent
+import userEvent from "@testing-library/user-event";
 import SearchBar from "@/components/searchbar";
 
 jest.mock("@/app/_actions/product", () => ({
@@ -24,30 +24,32 @@ const renderSearchBar = () => {
 
 describe("SearchBar", () => {
   test("renders the search input and search icon", () => {
+    jest.useFakeTimers();
     const { getByPlaceholderText, getByLabelText } = renderSearchBar();
+    jest.advanceTimersByTime(1000);
 
     expect(getByPlaceholderText("Search…")).toBeInTheDocument();
     expect(getByLabelText("search")).toBeInTheDocument();
   });
 
-  // test("displays search results when typing in the search input", async () => {
-  //   const { getByPlaceholderText, findByText } = renderSearchBar();
+  test("displays search results when typing in the search input", async () => {
+    const { getByPlaceholderText, findByText } = renderSearchBar();
 
-  //   const searchInput = getByPlaceholderText("Search…");
+    const searchInput = getByPlaceholderText("Search…");
 
-  //   // Use userEvent.type to simulate typing in the search input
-  //   await act(async () => {
-  //     userEvent.type(searchInput, "product");
-  //   });
+    // Use userEvent.type to simulate typing in the search input
+    await act(async () => {
+      userEvent.type(searchInput, "product");
+    });
 
-  //   await waitFor(async () => {
-  //     const product1 = await findByText("Product 1");
-  //     const product2 = await findByText("Product 2");
+    await waitFor(async () => {
+      const product1 = await findByText("Product 1");
+      const product2 = await findByText("Product 2");
 
-  //     expect(product1).toBeInTheDocument();
-  //     expect(product2).toBeInTheDocument();
-  //   });
-  // });
+      expect(product1).toBeInTheDocument();
+      expect(product2).toBeInTheDocument();
+    });
+  });
 
   test("hides search results when search input is cleared", async () => {
     const { getByPlaceholderText, findByText, queryByText } = renderSearchBar();
