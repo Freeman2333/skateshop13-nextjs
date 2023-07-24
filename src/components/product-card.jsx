@@ -14,7 +14,7 @@ const ProductCard = ({ product }) => {
   const { name, price, image } = product;
 
   return (
-    <Card>
+    <Card data-testid="product-card">
       <NextLink href={`/product/${product.id}`}>
         <CardMedia component="img" image={image} alt={name} />
         <CardContent>
@@ -27,7 +27,7 @@ const ProductCard = ({ product }) => {
         </CardContent>
       </NextLink>
       <CardContent>
-        <Stack gap={2} direction={"horizontal"}>
+        <Stack gap={2} direction={"row"}>
           <Button
             variant="outlined"
             color="primary"
