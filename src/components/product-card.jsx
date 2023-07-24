@@ -15,7 +15,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <Card>
-      <NextLink href={`/product-preview/${product.id}`}>
+      <NextLink href={`/product/${product.id}`}>
         <CardMedia component="img" image={image} alt={name} />
         <CardContent>
           <Typography variant="h5" component="div">
@@ -32,7 +32,7 @@ const ProductCard = ({ product }) => {
             variant="outlined"
             color="primary"
             component={NextLink}
-            href={`/product-preview/${product.id}`}
+            href={`/product/${product.id}`}
           >
             Preview
           </Button>

@@ -40,3 +40,15 @@ export const getProductsList = async (
   });
   return res;
 };
+
+export const getSingleProduct = async (productId) => {
+  const productQuery = `
+    SELECT p.*, c.name AS categoryName
+    FROM product p
+    JOIN category c ON p.categoryid = c.id
+    WHERE p.id = ?;
+`;
+
+  const [product] = await query({ query: productQuery, values: [productId] });
+  return product;
+};
