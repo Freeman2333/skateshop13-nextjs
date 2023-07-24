@@ -7,21 +7,14 @@ import Pagination from "@/components/pagination";
 import ProductFilterSidebar from "@/components/product-filter-sidebar";
 import { getProductsList } from "@/services/product";
 import { getCategories } from "@/services/categories";
-import { PRODUCTS_PRICE_RANGE } from "@/constants";
 
 const PAGE_SIZE = 8;
 
 const ProductsPage = async ({ searchParams }) => {
   const { page, price_range, categories: categoriesIds } = searchParams;
 
-  const isPriceRangeCorrect =
-    price_range &&
-    +price_range > PRODUCTS_PRICE_RANGE[0] &&
-    +price_range < PRODUCTS_PRICE_RANGE[1];
-  const minPrice = isPriceRangeCorrect ? price_range.split("-")[0] : String(0);
-  const maxPrice = isPriceRangeCorrect
-    ? price_range.split("-")[1]
-    : String(500);
+  const minPrice = price_range ? price_range.split("-")[0] : String(0);
+  const maxPrice = price_range ? price_range.split("-")[1] : String(500);
   const offset = String(PAGE_SIZE * ((page || 1) - 1));
   const limit = String(PAGE_SIZE);
 

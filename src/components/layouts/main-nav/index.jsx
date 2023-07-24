@@ -5,31 +5,18 @@ import { Icons } from "@/components/icons";
 import { siteConfig } from "@/config/site.consts";
 import NavItem from "./nav-item";
 import Searchbar from "@/components/searchbar";
+import { logoTypographyStyles, linkStyles } from "./styles";
 
 const MainNav = ({ items }) => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Link href="/" style={{ textDecoration: "none" }}>
+        <Link href="/" style={linkStyles}>
           <Typography
             variant="h6"
             component={Stack}
             direction="horizontal"
-            sx={{
-              marginRight: 5,
-              alignItems: "center",
-              gap: 1,
-              color: "#fff !important",
-              textDecoration: "none !important",
-              "& svg": {
-                display: "block",
-                width: 30,
-                height: 30,
-              },
-              "& span": {
-                textDecoration: "none !important",
-              },
-            }}
+            sx={logoTypographyStyles}
           >
             <Icons.logo />
             <span>{siteConfig.name}</span>
