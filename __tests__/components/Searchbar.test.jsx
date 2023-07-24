@@ -24,9 +24,7 @@ const renderSearchBar = () => {
 
 describe("SearchBar", () => {
   test("renders the search input and search icon", () => {
-    jest.useFakeTimers();
     const { getByPlaceholderText, getByLabelText } = renderSearchBar();
-    jest.advanceTimersByTime(1000);
 
     expect(getByPlaceholderText("Search…")).toBeInTheDocument();
     expect(getByLabelText("search")).toBeInTheDocument();
@@ -39,7 +37,7 @@ describe("SearchBar", () => {
 
     // Use userEvent.type to simulate typing in the search input
     await act(async () => {
-      userEvent.type(searchInput, "product");
+      await userEvent.type(searchInput, "product");
     });
 
     await waitFor(async () => {
@@ -57,7 +55,7 @@ describe("SearchBar", () => {
     const searchInput = getByPlaceholderText("Search…");
 
     await act(async () => {
-      userEvent.type(searchInput, "product");
+      await userEvent.type(searchInput, "product");
     });
 
     const product = await findByText("Product 1");
@@ -66,7 +64,7 @@ describe("SearchBar", () => {
 
     // Use userEvent.clear to clear the search input
     await act(async () => {
-      userEvent.clear(searchInput);
+      await userEvent.type(searchInput, " ");
     });
 
     // Wait for the state update to complete inside useEffect
