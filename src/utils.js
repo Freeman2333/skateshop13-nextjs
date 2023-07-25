@@ -11,3 +11,6 @@ export const createQueryString = (searchParams, params) => {
 
   return newSearchParams.toString();
 };
+
+export const capitalizeWord = (word) =>
+  word.charAt(0).toUpperCase() + word.slice(1);

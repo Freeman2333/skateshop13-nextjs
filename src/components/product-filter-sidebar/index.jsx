@@ -13,7 +13,7 @@ import {
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 import { useDebounce } from "@/hooks/use-debounce";
-import { createQueryString } from "@/utils";
+import { capitalizeWord, createQueryString } from "@/utils";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { PRODUCTS_PRICE_RANGE } from "@/constants";
 import {
@@ -73,9 +73,9 @@ const ProductFilterSidebar = ({ categories }) => {
     setSelectedCategories([]);
   };
 
-  const categoriesOptions = categories.map((cat) => ({
+  const categoriesOptions = (categories || []).map((cat) => ({
     value: cat.id,
-    label: cat.name.charAt(0).toUpperCase() + cat.name.slice(1),
+    label: capitalizeWord(cat.name),
   }));
 
   useEffect(() => {
@@ -143,24 +143,27 @@ const ProductFilterSidebar = ({ categories }) => {
             />
           </Box>
           <Divider sx={bottomDividerStyles} />
-          <Autocomplete
-            multiple
-            options={categoriesOptions}
-            value={selectedCategories}
-            onChange={handleCategoryChange}
-            getOptionLabel={(option) => option.label}
-            isOptionEqualToValue={(option, value) =>
-              option.value === value.value
-            }
-            filterSelectedOptions
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Categories"
-                placeholder="select categories"
-              />
-            )}
-          />
+          {!!categories.length && (
+            <Autocomplete
+              multiple
+              options={categoriesOptions}
+              value={selectedCategories}
+              onChange={handleCategoryChange}
+              getOptionLabel={(option) => option.label}
+              isOptionEqualToValue={(option, value) =>
+                option.value === value.value
+              }
+              filterSelectedOptions
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Categories"
+                  placeholder="select categories"
+                />
+              )}
+            />
+          )}
+
           <Button
             variant="contained"
             onClick={clearFilters}

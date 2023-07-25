@@ -3,11 +3,19 @@ import { AppBar, Toolbar, Typography, Grid, Box, Stack } from "@mui/material";
 
 import { Icons } from "@/components/icons";
 import { siteConfig } from "@/config/site.consts";
-import NavItem from "./nav-item";
 import Searchbar from "@/components/searchbar";
 import { logoTypographyStyles, linkStyles } from "./styles";
+import NextLink from "@/components/next-link";
+import { getCategories } from "@/services/categories";
+import { capitalizeWord } from "@/utils";
 
-const MainNav = ({ items }) => {
+const MainNav = async () => {
+  const categories = await getCategories();
+
+  const categoriesOptions = [
+    ...categories.map((cat) => ({ ...cat, name: capitalizeWord(cat.name) })),
+  ];
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -23,9 +31,14 @@ const MainNav = ({ items }) => {
           </Typography>
         </Link>
         <Grid container spacing={3}>
-          {items.map((category) => (
-            <Grid item key={category.title}>
-              <NavItem category={category} />
+          <Grid item key="all products">
+            <NextLink href={`/products`}>All products</NextLink>
+          </Grid>
+          {categoriesOptions.map((category) => (
+            <Grid item key={category.id}>
+              <NextLink href={`/categories/${category.name}`}>
+                {category.name}
+              </NextLink>
             </Grid>
           ))}
         </Grid>
