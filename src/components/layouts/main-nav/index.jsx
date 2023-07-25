@@ -32,11 +32,11 @@ const MainNav = async () => {
         </Link>
         <Grid container spacing={3}>
           <Grid item key="all products">
-            <NextLink href={`/products`}>All products</NextLink>
+            <NextLink href={`/products`}>All</NextLink>
           </Grid>
           {categoriesOptions.map((category) => (
             <Grid item key={category.id}>
-              <NextLink href={`/categories/${category.name}`}>
+              <NextLink href={`/categories/${category.name.toLowerCase()}`}>
                 {category.name}
               </NextLink>
             </Grid>
