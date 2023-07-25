@@ -17,9 +17,6 @@ const CartItem = ({ item, index }) => {
           <Typography variant="subtitle2" color={"text.secondary"}>
             $ {item.price}
           </Typography>
-          {/* <Typography variant="body2" color={"text.secondary"}>
-            {item.category}
-          </Typography> */}
         </Box>
       </Box>
       <Box sx={cartItemRight}>

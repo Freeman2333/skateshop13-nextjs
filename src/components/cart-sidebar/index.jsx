@@ -31,6 +31,19 @@ const Cart = observer(() => {
   const handleCartOpen = () => {
     setIsCartOpen(!isCartOpen);
   };
+
+  const renderCartItems = () => {
+    return (
+      <>
+        {!items.length
+          ? "Cart is empty"
+          : items.map((item, index) => (
+              <CartItem key={item.id + index} item={item} index={index} />
+            ))}
+      </>
+    );
+  };
+
   return (
     <>
       <IconButton
@@ -61,13 +74,7 @@ const Cart = observer(() => {
             </IconButton>
           </Box>
           <Divider />
-          <Box marginTop="20px">
-            {!items.length
-              ? "Cart is empty"
-              : items.map((item, index) => (
-                  <CartItem key={item.id + index} item={item} index={index} />
-                ))}
-          </Box>
+          <Box marginTop="20px">{renderCartItems()}</Box>
           <Divider sx={bottomDividerStyle} />
           <Box sx={DrawerFooterStyle}>
             <Typography variant="subtitle1">Total price:</Typography>
