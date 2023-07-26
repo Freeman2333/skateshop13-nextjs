@@ -20,7 +20,9 @@ const ProductsPage = async ({ searchParams, params }) => {
   const limit = String(PAGE_SIZE);
 
   const categories = await getCategories();
-  const currentCategoryId = categories.find((cat) => cat.name === categoryName);
+  const currentCategoryId = categories.find(
+    (cat) => cat.name === categoryName
+  ).id;
 
   const products = await getProductsList(
     minPrice,
@@ -37,8 +39,8 @@ const ProductsPage = async ({ searchParams, params }) => {
   return (
     <Box paddingBottom={4}>
       <PageHeader
-        title={"products"}
-        description="Buy products from our stores"
+        title={categoryName}
+        description={`Buy ${categoryName} from our stores`}
       />
       <ProductFilterSidebar />
       <Products products={products} />
