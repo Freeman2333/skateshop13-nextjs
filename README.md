@@ -4,6 +4,12 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Before starting the project, please ensure that you have established a connection with the database. To do this, you need to provide the necessary credentials in the `.env` file. Make sure to include the required information for the database connection in the `.env` file before running the project. Find `.env.local` file.
 
+while developing the project we use local database. You need
+
+1. Install dBeaver https://dbeaver.io/download/
+2. Install Mysql https://dev.mysql.com/downloads/installer/
+3. Import Database
+
 To install the project dependencies, run the following command:
 
 ````bash
