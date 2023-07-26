@@ -28,13 +28,8 @@ const ProductCard = ({ product }) => {
       </NextLink>
       <CardContent>
         <Stack gap={2} direction={"row"}>
-          <Button
-            variant="outlined"
-            color="primary"
-            component={NextLink}
-            href={`/product/${product.id}`}
-          >
-            Preview
+          <Button variant="outlined" color="primary">
+            <NextLink href={`/product/${product.id}`}>Preview</NextLink>
           </Button>
           <Button variant="contained" color="primary">
             Add to Cart

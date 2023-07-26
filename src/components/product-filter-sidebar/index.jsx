@@ -106,7 +106,7 @@ const ProductFilterSidebar = ({ categories }) => {
         <Box sx={innerBoxStyles}>
           <Box sx={closeButtonBoxStyles}>
             <Typography variant="h6">Filters</Typography>
-            <Button onClick={handleCloseSidebar}>
+            <Button onClick={handleCloseSidebar} data-testid="close-icon">
               <CloseIcon />
             </Button>
           </Box>
@@ -153,6 +153,7 @@ const ProductFilterSidebar = ({ categories }) => {
               option.value === value.value
             }
             filterSelectedOptions
+            data-testid="categories-select"
             renderInput={(params) => (
               <TextField
                 {...params}
