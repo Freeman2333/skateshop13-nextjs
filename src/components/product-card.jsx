@@ -36,6 +36,7 @@ const ProductCard = ({ product }) => {
           <Button
             variant="contained"
             color="primary"
+            className="button--add"
             onClick={() => CartStore.addProductToCart(product)}
           >
             Add to Cart
