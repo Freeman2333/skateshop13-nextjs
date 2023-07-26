@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 
 import { productCategories } from "@/config/products.consts";
-import NextLink from "./next-link";
+import NextLink from "../next-link";
 import {
   cardStyle,
   cardMediaStyle,
