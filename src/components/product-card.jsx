@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import NextLink from "./next-link";
 
+import CartStore from "@/store/cart.store";
+
 const ProductCard = ({ product }) => {
   const { name, price, image } = product;
 
@@ -31,7 +33,11 @@ const ProductCard = ({ product }) => {
           <Button variant="outlined" color="primary">
             <NextLink href={`/product/${product.id}`}>Preview</NextLink>
           </Button>
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => CartStore.addProductToCart(product)}
+          >
             Add to Cart
           </Button>
         </Stack>
