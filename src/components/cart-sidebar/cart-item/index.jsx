@@ -9,7 +9,7 @@ import CartStore from "@/store/cart.store";
 
 const CartItem = ({ item, index }) => {
   return (
-    <Box sx={cartItemWrapper}>
+    <Box sx={cartItemWrapper} data-testId="shopping-cart-item">
       <Box sx={cartItemLeft}>
         <Image src={item.image} width={64} height={64} alt="Product Image" />
         <Box marginLeft="20px">
@@ -36,6 +36,7 @@ const CartItem = ({ item, index }) => {
         <IconButton
           onClick={() => CartStore.plusCartItem(index)}
           variant="outlined"
+          data-testId="cart-item-plus"
         >
           <Plus size={"12px"} />
         </IconButton>
@@ -43,6 +44,7 @@ const CartItem = ({ item, index }) => {
         <IconButton
           onClick={() => CartStore.removeCartItem(index)}
           variant="outlined"
+          data-testId="cart-item-delete"
         >
           <Delete size={"12px"} />
         </IconButton>

@@ -64,7 +64,12 @@ const Cart = observer(() => {
       >
         <Box sx={DrawerInnerBoxStyle}>
           <Box sx={DrawerHeaderStyle}>
-            <Typography variant="h6">Cart</Typography>
+            <Typography variant="h6">
+              Cart{" "}
+              <span data-testid="card-total-count">
+                {+totalCount > 0 && `(${totalCount})`}
+              </span>
+            </Typography>
             <IconButton
               color="inherit"
               sx={CloseIconStyle}
@@ -78,7 +83,9 @@ const Cart = observer(() => {
           <Divider sx={bottomDividerStyle} />
           <Box sx={DrawerFooterStyle}>
             <Typography variant="subtitle1">Total price:</Typography>
-            <Typography variant="subtitle1">${totalPrice}</Typography>
+            <Typography data-testid="card-total-price" variant="subtitle1">
+              ${totalPrice}
+            </Typography>
           </Box>
           <Button variant="contained" color="primary" fullWidth>
             Checkout
