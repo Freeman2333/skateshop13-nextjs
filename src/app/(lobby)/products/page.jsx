@@ -20,13 +20,13 @@ const ProductsPage = async ({ searchParams }) => {
 
   const categories = await getCategories();
 
-  const products = await getProductsList(
+  const products = await getProductsList({
     minPrice,
     maxPrice,
     categoriesIds,
     offset,
-    limit
-  );
+    limit,
+  });
 
   if (!products?.length) {
     return "no products found";
