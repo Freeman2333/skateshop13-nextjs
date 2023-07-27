@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AppBar, Toolbar, Typography, Grid, Box, Stack } from "@mui/material";
+import { AppBar, Toolbar, Typography, Grid, Stack } from "@mui/material";
 
 import { Icons } from "@/components/icons";
 import { siteConfig } from "@/config/site.consts";
@@ -8,6 +8,7 @@ import { logoTypographyStyles, linkStyles } from "./styles";
 import NextLink from "@/components/next-link";
 import { getCategories } from "@/services/categories";
 import { capitalizeWord } from "@/utils";
+import Cart from "@/components/cart-sidebar";
 
 const MainNav = async () => {
   const categories = await getCategories();
@@ -23,7 +24,7 @@ const MainNav = async () => {
           <Typography
             variant="h6"
             component={Stack}
-            direction="horizontal"
+            direction="row"
             sx={logoTypographyStyles}
           >
             <Icons.logo />
@@ -49,6 +50,7 @@ const MainNav = async () => {
           ))}
         </Grid>
         <Searchbar />
+        <Cart />
       </Toolbar>
     </AppBar>
   );
