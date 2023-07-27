@@ -17,3 +17,7 @@ export const logoTypographyStyles = {
 export const linkStyles = {
   textDecoration: "none",
 };
+
+export const toolbarStyles = {
+  paddingX: "0!important",
+};

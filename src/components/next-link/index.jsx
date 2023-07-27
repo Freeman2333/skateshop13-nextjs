@@ -5,7 +5,7 @@ import { linkStyles } from "./styles";
 
 const NextLink = ({ children, href, ...rest }) => {
   return (
-    <Link href={href} {...rest} style={linkStyles}>
+    <Link href={href} style={linkStyles} {...rest}>
       {children}
     </Link>
   );
