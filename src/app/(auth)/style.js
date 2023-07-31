@@ -59,4 +59,6 @@ export const layoutContainerRight = {
   "@media (min-width: 1280px)": {
     gridColumn: "2 / 3",
   },
+  display: "flex",
+  padding: "30px",
 };
