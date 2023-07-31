@@ -20,9 +20,13 @@ const ProductsPage = async ({ searchParams, params }) => {
   const limit = String(PAGE_SIZE);
 
   const categories = await getCategories();
-  const currentCategoryId = categories.find(
-    (cat) => cat.name === categoryName
-  ).id;
+  const currentCategory = categories.find((cat) => cat.name === categoryName);
+
+  if (!currentCategory) {
+    return "category not found";
+  }
+
+  const currentCategoryId = currentCategory.id;
 
   const products = await getProductsList({
     minPrice,

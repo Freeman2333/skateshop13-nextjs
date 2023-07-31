@@ -13,10 +13,6 @@ import Cart from "@/components/cart-sidebar";
 const MainNav = async () => {
   const categories = await getCategories();
 
-  const categoriesOptions = [
-    ...categories.map((cat) => ({ ...cat, name: capitalizeWord(cat.name) })),
-  ];
-
   return (
     <AppBar position="static">
       <Toolbar>
@@ -39,9 +35,9 @@ const MainNav = async () => {
               </Typography>
             </NextLink>
           </Grid>
-          {categoriesOptions.map((category) => (
+          {categories.map((category) => (
             <Grid item key={category.id}>
-              <NextLink href={`/categories/${category.name.toLowerCase()}`}>
+              <NextLink href={`/categories/${category.name}`}>
                 <Typography variant="h6" textTransform={"capitalize"}>
                   {category.name}
                 </Typography>

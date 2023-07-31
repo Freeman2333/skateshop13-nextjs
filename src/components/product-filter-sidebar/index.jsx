@@ -143,7 +143,7 @@ const ProductFilterSidebar = ({ categories }) => {
             />
           </Box>
           <Divider sx={bottomDividerStyles} />
-          {!!(categories || []).length && (
+          {categories && categories.length && (
             <Autocomplete
               multiple
               options={categoriesOptions}
