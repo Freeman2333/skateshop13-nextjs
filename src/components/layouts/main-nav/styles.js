@@ -21,3 +21,8 @@ export const linkStyles = {
 export const toolbarStyles = {
   paddingX: "0!important",
 };
+
+export const signInButtonStyles = {
+  whiteSpace: "nowrap",
+  marginLeft: "10px",
+};

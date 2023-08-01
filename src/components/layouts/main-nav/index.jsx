@@ -12,7 +12,12 @@ import {
 import { Icons } from "@/components/icons";
 import { siteConfig } from "@/config/site.consts";
 import Searchbar from "@/components/searchbar";
-import { logoTypographyStyles, linkStyles, toolbarStyles } from "./styles";
+import {
+  logoTypographyStyles,
+  linkStyles,
+  toolbarStyles,
+  signInButtonStyles,
+} from "./styles";
 import NextLink from "@/components/next-link";
 import { getCategories } from "@/services/categories";
 import Cart from "@/components/cart-sidebar";
@@ -55,14 +60,7 @@ const MainNav = async () => {
           </Grid>
           <Searchbar />
           <Cart />
-          <Button
-            color="inherit"
-            variant="outlined"
-            sx={{
-              whiteSpace: "nowrap",
-              marginLeft: "10px",
-            }}
-          >
+          <Button color="inherit" variant="outlined" sx={signInButtonStyles}>
             <NextLink href="/signin">Sign In</NextLink>
           </Button>
         </Toolbar>
