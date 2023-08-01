@@ -6,7 +6,7 @@ import MainNav from "./main-nav";
 const SiteHeader = () => {
   return (
     <>
-      <MainNav items={siteConfig.mainNav} />
+      <MainNav />
     </>
   );
 };

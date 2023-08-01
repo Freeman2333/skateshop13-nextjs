@@ -12,16 +12,23 @@ import { getServerSession } from "next-auth";
 
 import { Icons } from "@/components/icons";
 import { siteConfig } from "@/config/site.consts";
-import NavItem from "./nav-item";
 import Searchbar from "@/components/searchbar";
-import { logoTypographyStyles, linkStyles, toolbarStyles } from "./styles";
+import {
+  logoTypographyStyles,
+  linkStyles,
+  toolbarStyles,
+  signInButtonStyles,
+} from "./styles";
 import NextLink from "@/components/next-link";
+import { getCategories } from "@/services/categories";
 import Cart from "@/components/cart-sidebar";
 import authOptions from "@/lib/auth";
 import UserMenu from "@/components/auth/user-menu";
 
-const MainNav = async ({ items }) => {
+const MainNav = async () => {
   const session = await getServerSession(authOptions);
+  const categories = await getCategories();
+
   const user = session?.user;
 
   return (
@@ -40,9 +47,20 @@ const MainNav = async ({ items }) => {
             </Typography>
           </Link>
           <Grid container spacing={3}>
-            {items.map((category) => (
-              <Grid item key={category.title}>
-                <NavItem category={category} />
+            <Grid item key="all products">
+              <NextLink href={`/products`}>
+                <Typography variant="h6" textTransform={"capitalize"}>
+                  All
+                </Typography>
+              </NextLink>
+            </Grid>
+            {categories.map((category) => (
+              <Grid item key={category.id}>
+                <NextLink href={`/categories/${category.name}`}>
+                  <Typography variant="h6" textTransform={"capitalize"}>
+                    {category.name}
+                  </Typography>
+                </NextLink>
               </Grid>
             ))}
           </Grid>
@@ -51,14 +69,7 @@ const MainNav = async ({ items }) => {
           {user ? (
             <UserMenu user={user} />
           ) : (
-            <Button
-              color="inherit"
-              variant="outlined"
-              sx={{
-                whiteSpace: "nowrap",
-                marginLeft: "10px",
-              }}
-            >
+            <Button color="inherit" variant="outlined" sx={signInButtonStyles}>
               <NextLink href="/signin">Sign In</NextLink>
             </Button>
           )}

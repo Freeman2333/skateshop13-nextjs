@@ -3,6 +3,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import AuthForm from "@/components/forms/auth-form";
+import { siteConfig } from "@/config/site.consts";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -14,11 +15,11 @@ const SignInPage = () => {
         email: formValues.email,
         password: formValues.password,
         name: formValues.name,
-        callbackUrl: "/",
+        callbackUrl: siteConfig.devHomeUrl,
       });
 
       if (!res?.error) {
-        router.push("/");
+        router.push(siteConfig.devHomeUrl);
       } else {
         console.log("invalid email or password");
       }

@@ -12,6 +12,9 @@ export const createQueryString = (searchParams, params) => {
   return newSearchParams.toString();
 };
 
+export const capitalizeWord = (word) =>
+  word.charAt(0).toUpperCase() + word.slice(1);
+
 export const isEqualObjects = (object1, object2, keyException) => {
   const props1 = Object.getOwnPropertyNames(object1);
 

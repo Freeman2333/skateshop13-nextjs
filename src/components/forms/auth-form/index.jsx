@@ -20,6 +20,7 @@ import {
   dividerStyle,
 } from "./styles";
 import NextLink from "@/components/next-link";
+import { siteConfig } from "@/config/site.consts";
 
 const AuthForm = ({ submitHandler, isSignin }) => {
   const validationSchema = yup.object().shape({
@@ -53,7 +54,9 @@ const AuthForm = ({ submitHandler, isSignin }) => {
       </Typography>
       <Box paddingY={2} sx={fullwidthStyles}>
         <GoogleButton
-          onClick={async () => await signIn("google", { callbackUrl: "/" })}
+          onClick={async () =>
+            await signIn("google", { callbackUrl: siteConfig.devHomeUrl })
+          }
           style={fullwidthStyles}
         />
       </Box>

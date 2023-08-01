@@ -18,7 +18,13 @@ const ProductCard = ({ product }) => {
   return (
     <Card>
       <NextLink href={`/product/${product.id}`}>
-        <CardMedia component="img" image={image} alt={name} />
+        <CardMedia
+          component="img"
+          image={image}
+          alt={name}
+          height={200}
+          sx={{ objectFit: "cover" }}
+        />
         <CardContent>
           <Typography variant="h5" component="div">
             {name}

@@ -1,40 +1,26 @@
 "use client";
 import AuthForm from "@/components/forms/auth-form";
+import client from "@/config/api";
+import { siteConfig } from "@/config/site.consts";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-const SignInPage = () => {
+const SignUpPage = () => {
   const router = useRouter();
 
   const onSubmit = async (formValues) => {
     try {
-      const res = await fetch("/api/signup", {
-        method: "POST",
-        body: JSON.stringify(formValues),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (!res.ok) {
-        // TODO add toast
-        console.log((await res.json()).message);
-        return;
-      }
-      const { user } = await res.json();
+      const { user } = await client("/signup", formValues, "POST");
 
       await signIn("credentials", {
         redirect: false,
         email: user.email,
         password: formValues.password,
         name: user.name,
-        callbackUrl: "/",
+        callbackUrl: siteConfig.devHomeUrl,
       });
 
-      if (!res?.error) {
-        router.push("/");
-      } else {
-        setError("invalid email or password");
-      }
+      router.push(siteConfig.devHomeUrl);
     } catch (error) {
       console.log(error);
     }
@@ -43,4 +29,4 @@ const SignInPage = () => {
   return <AuthForm submitHandler={onSubmit} />;
 };
 
-export default SignInPage;
+export default SignUpPage;
