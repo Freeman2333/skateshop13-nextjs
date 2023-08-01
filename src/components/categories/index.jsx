@@ -17,12 +17,12 @@ import {
   linkStyles,
 } from "./styles";
 
-const ProductCategoriesGrid = () => {
+const ProductCategoriesGrid = async () => {
   return (
     <Grid container spacing={2} marginBottom={8}>
       {productCategories.map((category, index) => (
         <Grid item xs={6} sm={6} md={3} key={index}>
-          <NextLink href={`/category/${category.id}`} style={linkStyles}>
+          <NextLink href={`/categories/${category.title}`} style={linkStyles}>
             <Card sx={cardStyle}>
               <CardActionArea>
                 <CardMedia

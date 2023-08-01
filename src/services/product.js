@@ -1,12 +1,12 @@
 import { query } from "@/db";
 
-export const getProductsList = async (
+export const getProductsList = async ({
   minPrice,
   maxPrice,
   categoriesIds,
   offset,
-  limit
-) => {
+  limit,
+}) => {
   let productsQuery;
   let queryValues = [];
 
@@ -23,15 +23,20 @@ export const getProductsList = async (
     `;
     queryValues = [
       ...categoriesIds.split(","),
-      minPrice,
-      maxPrice,
-      limit,
-      offset,
+      String(minPrice),
+      String(maxPrice),
+      String(limit),
+      String(offset),
     ];
   } else {
     productsQuery = `SELECT *, COUNT(*) OVER() AS total_count FROM product WHERE price BETWEEN ? AND ? LIMIT ? OFFSET ?
     `;
-    queryValues = [minPrice, maxPrice, limit, offset];
+    queryValues = [
+      String(minPrice),
+      String(maxPrice),
+      String(limit),
+      String(offset),
+    ];
   }
 
   const res = await query({
