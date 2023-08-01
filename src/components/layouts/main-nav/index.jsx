@@ -8,6 +8,7 @@ import {
   Button,
   Container,
 } from "@mui/material";
+import { getServerSession } from "next-auth";
 
 import { Icons } from "@/components/icons";
 import { siteConfig } from "@/config/site.consts";
@@ -16,8 +17,13 @@ import Searchbar from "@/components/searchbar";
 import { logoTypographyStyles, linkStyles, toolbarStyles } from "./styles";
 import NextLink from "@/components/next-link";
 import Cart from "@/components/cart-sidebar";
+import authOptions from "@/lib/auth";
+import UserMenu from "@/components/auth/user-menu";
 
-const MainNav = ({ items }) => {
+const MainNav = async ({ items }) => {
+  const session = await getServerSession(authOptions);
+  const user = session?.user;
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -42,16 +48,20 @@ const MainNav = ({ items }) => {
           </Grid>
           <Searchbar />
           <Cart />
-          <Button
-            color="inherit"
-            variant="outlined"
-            sx={{
-              whiteSpace: "nowrap",
-              marginLeft: "10px",
-            }}
-          >
-            <NextLink href="/signin">Sign In</NextLink>
-          </Button>
+          {user ? (
+            <UserMenu user={user} />
+          ) : (
+            <Button
+              color="inherit"
+              variant="outlined"
+              sx={{
+                whiteSpace: "nowrap",
+                marginLeft: "10px",
+              }}
+            >
+              <NextLink href="/signin">Sign In</NextLink>
+            </Button>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

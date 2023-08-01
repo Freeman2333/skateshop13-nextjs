@@ -27,7 +27,7 @@ const AuthForm = ({ submitHandler, isSignin }) => {
       .string()
       .email("Invalid email address")
       .required("Email is required"),
-    name: yup.string(),
+    name: isSignin ? yup.string() : yup.string().required("Name is required"),
     password: yup.string().required("Password is required"),
   });
 
@@ -63,21 +63,23 @@ const AuthForm = ({ submitHandler, isSignin }) => {
         component="form"
         sx={formBoxStyles}
       >
-        <Controller
-          name="name"
-          control={control}
-          defaultValue=""
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Name"
-              variant="outlined"
-              fullWidth
-              error={!!errors.name}
-              helperText={errors.name?.message}
-            />
-          )}
-        />
+        {!isSignin && (
+          <Controller
+            name="name"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Name"
+                variant="outlined"
+                fullWidth
+                error={!!errors.name}
+                helperText={errors.name?.message}
+              />
+            )}
+          />
+        )}
         <Controller
           name="email"
           control={control}
