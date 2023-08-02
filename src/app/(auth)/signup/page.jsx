@@ -10,13 +10,13 @@ const SignUpPage = () => {
 
   const onSubmit = async (formValues) => {
     try {
-      const { user } = await client("/signup", formValues, "POST");
+      const { data } = await client.post("/signup", formValues);
 
       await signIn("credentials", {
         redirect: false,
-        email: user.email,
+        email: data.user.email,
         password: formValues.password,
-        name: user.name,
+        name: data.user.name,
         callbackUrl: siteConfig.devHomeUrl,
       });
 
