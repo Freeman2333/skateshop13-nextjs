@@ -10,7 +10,7 @@ const SignUpPage = () => {
 
   const onSubmit = async (formValues) => {
     try {
-      const { user } = await client("/signup", formValues, "POST");
+      const { user } = await client.post("/signup", formValues);
 
       await signIn("credentials", {
         redirect: false,
