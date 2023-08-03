@@ -30,15 +30,11 @@ export async function createUser({ name, email, hashed_password }) {
 }
 
 export async function findUserByEmail(email) {
-  try {
-    // Query the database to find the user with the provided email
-    const results = await query({
-      query: "SELECT * FROM users WHERE email = :email LIMIT 1",
-      values: { email },
-    });
+  // Query the database to find the user with the provided email
+  const results = await query({
+    query: "SELECT * FROM users WHERE email = :email LIMIT 1",
+    values: { email },
+  });
 
-    return results.length > 0 ? results[0] : null;
-  } catch (error) {
-    throw Error(error.message);
-  }
+  return results.length > 0 ? results[0] : null;
 }
