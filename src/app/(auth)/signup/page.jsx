@@ -4,6 +4,7 @@ import client from "@/config/api";
 import { siteConfig } from "@/config/site.consts";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const SignUpPage = () => {
   const router = useRouter();
@@ -19,10 +20,10 @@ const SignUpPage = () => {
         name: data.user.name,
         callbackUrl: siteConfig.devHomeUrl,
       });
-
+      toast.success(`welcome ${data.user.name}`);
       router.push(siteConfig.devHomeUrl);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 

@@ -1,6 +1,7 @@
 "use client";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 import AuthForm from "@/components/forms/auth-form";
 import { siteConfig } from "@/config/site.consts";
@@ -17,11 +18,11 @@ const SignInPage = () => {
         name: formValues.name,
         callbackUrl: siteConfig.devHomeUrl,
       });
-
       if (!res?.error) {
+        toast.success(`welcome!`);
         router.push(siteConfig.devHomeUrl);
       } else {
-        console.log("invalid email or password");
+        toast.error("invalid email or password");
       }
     } catch (error) {
       console.log(error);

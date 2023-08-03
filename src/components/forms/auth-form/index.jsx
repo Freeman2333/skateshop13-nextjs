@@ -12,6 +12,7 @@ import {
 import * as yup from "yup";
 import GoogleButton from "react-google-button";
 import { signIn } from "next-auth/react";
+import { toast } from "react-toastify";
 
 import {
   formBoxStyles,
@@ -30,6 +31,12 @@ const AuthForm = ({ submitHandler, isSignin }) => {
       .required("Email is required"),
     name: isSignin ? yup.string() : yup.string().required("Name is required"),
     password: yup.string().required("Password is required"),
+    confirmPassword: isSignin
+      ? yup.string()
+      : yup
+          .string()
+          .oneOf([yup.ref("password"), null], "Passwords must match")
+          .required("Confirm Password is required"),
   });
 
   const {
@@ -39,9 +46,19 @@ const AuthForm = ({ submitHandler, isSignin }) => {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
-
   const onSubmit = (data) => {
     submitHandler(data);
+  };
+
+  const signinWithGoogle = async () => {
+    try {
+      await signIn("google", {
+        callbackUrl: siteConfig.devHomeUrl,
+      });
+      toast.success("welcome!");
+    } catch (error) {
+      toast.error("something went wrong!");
+    }
   };
 
   return (
@@ -53,12 +70,7 @@ const AuthForm = ({ submitHandler, isSignin }) => {
         Choose your preferred {isSignin ? "sign in" : "sign up"} method.
       </Typography>
       <Box paddingY={2} sx={fullwidthStyles}>
-        <GoogleButton
-          onClick={async () =>
-            await signIn("google", { callbackUrl: siteConfig.devHomeUrl })
-          }
-          style={fullwidthStyles}
-        />
+        <GoogleButton onClick={signinWithGoogle} style={fullwidthStyles} />
       </Box>
       <Divider sx={dividerStyle}>OR CONTINUE WITH</Divider>
       <Box
@@ -114,6 +126,24 @@ const AuthForm = ({ submitHandler, isSignin }) => {
             />
           )}
         />
+        {!isSignin && (
+          <Controller
+            name="confirmPassword"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                type="password"
+                label="Confirm Password"
+                variant="outlined"
+                fullWidth
+                error={!!errors.confirmPassword}
+                helperText={errors.confirmPassword?.message}
+              />
+            )}
+          />
+        )}
         <Button type="submit" variant="contained" color="primary">
           {isSignin ? "Sign In" : "Sign up"}
         </Button>
