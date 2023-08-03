@@ -45,7 +45,7 @@ const Cart = observer(() => {
   };
 
   return (
-    <>
+    <Box mx="15px">
       <IconButton
         edge="end"
         color="inherit"
@@ -85,7 +85,7 @@ const Cart = observer(() => {
           </Button>
         </Box>
       </Drawer>
-    </>
+    </Box>
   );
 });
 
