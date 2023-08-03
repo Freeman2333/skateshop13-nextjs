@@ -13,7 +13,7 @@ import {
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 import { useDebounce } from "@/hooks/use-debounce";
-import { capitalizeWord, createQueryString } from "@/utils";
+import { createCategoriesOptions, createQueryString } from "@/utils";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { PRODUCTS_PRICE_RANGE } from "@/constants";
 import {
@@ -73,10 +73,7 @@ const ProductFilterSidebar = ({ categories }) => {
     setSelectedCategories([]);
   };
 
-  const categoriesOptions = (categories || []).map((cat) => ({
-    value: cat.id,
-    label: capitalizeWord(cat.name),
-  }));
+  const categoriesOptions = createCategoriesOptions(categories);
 
   useEffect(() => {
     const [min, max] = debouncedPrice;

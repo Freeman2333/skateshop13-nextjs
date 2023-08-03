@@ -39,3 +39,16 @@ export const getTotalCount = (takeObject) => {
     return obj.countItem ? obj.countItem + sum : sum;
   }, 0);
 };
+
+export const createCategoriesOptions = (categories) => {
+  return (categories || []).map((cat) => ({
+    value: String(cat.id),
+    label: capitalizeWord(cat.name),
+  }));
+};
+
+export function isArrayOfFile(files) {
+  const isArray = Array.isArray(files);
+  if (!isArray) return false;
+  return files.every((file) => file instanceof File);
+}
