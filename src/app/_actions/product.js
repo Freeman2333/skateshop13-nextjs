@@ -33,7 +33,6 @@ export async function checkProductAction(productName) {
 
 export async function addProductAction(input) {
   const session = await getServerSession(authOptions);
-  console.log(input.image);
 
   try {
     await query({
