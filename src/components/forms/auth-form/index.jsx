@@ -19,9 +19,10 @@ import {
   containerStyle,
   fullwidthStyles,
   dividerStyle,
+  nextLinkStyles,
 } from "./styles";
 import NextLink from "@/components/next-link";
-import { siteConfig } from "@/config/site.consts";
+import { routes } from "@/constants";
 
 const AuthForm = ({ submitHandler, isSignin }) => {
   const validationSchema = yup.object().shape({
@@ -53,7 +54,7 @@ const AuthForm = ({ submitHandler, isSignin }) => {
   const signinWithGoogle = async () => {
     try {
       await signIn("google", {
-        callbackUrl: siteConfig.devHomeUrl,
+        callbackUrl: routes.homePage,
       });
       toast.success("welcome!");
     } catch (error) {
@@ -152,14 +153,14 @@ const AuthForm = ({ submitHandler, isSignin }) => {
         {isSignin ? (
           <>
             Don't have an account?{" "}
-            <NextLink href="/signup" style={{ color: "black" }}>
+            <NextLink href={routes.signUp} style={nextLinkStyles}>
               Sign up
             </NextLink>
           </>
         ) : (
           <>
             Already have an account?{" "}
-            <NextLink href="/signin" style={{ color: "black" }}>
+            <NextLink href={routes.signIn} style={nextLinkStyles}>
               Sign in
             </NextLink>
           </>

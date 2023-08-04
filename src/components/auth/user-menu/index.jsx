@@ -22,6 +22,7 @@ import {
   headerBoxStyles,
 } from "./styles";
 import NextLink from "@/components/next-link";
+import { routes } from "@/constants";
 
 export default function UserMenu({ user }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -72,15 +73,9 @@ export default function UserMenu({ user }) {
         <Divider />
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
-            <Person fontSize="small" />
-          </ListItemIcon>
-          <NextLink href="/dashboard/account">Account</NextLink>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
             <Dashboard fontSize="small" />
           </ListItemIcon>
-          <NextLink href="/dashboard/dashboard">Dashboard</NextLink>
+          <NextLink href={routes.dashboard}>Dashboard</NextLink>
         </MenuItem>
         <MenuItem onClick={async () => await signOut()}>
           <ListItemIcon>

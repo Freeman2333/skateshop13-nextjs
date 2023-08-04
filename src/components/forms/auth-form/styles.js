@@ -23,3 +23,7 @@ export const dividerStyle = {
 export const fullwidthStyles = {
   width: "100%",
 };
+
+export const nextLinkStyles = {
+  color: "black",
+};
