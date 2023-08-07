@@ -31,7 +31,7 @@ export const getProductsList = async ({
 
   productsQuery += `LIMIT ? OFFSET ?`;
   queryValues.push(String(limit), String(offset));
-  console.log({ productsQuery, queryValues });
+
   const res = await query({
     query: productsQuery,
     values: queryValues,
