@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 import AuthForm from "@/components/forms/auth-form";
-import { siteConfig } from "@/config/site.consts";
 import { routes } from "@/constants";
 
 const SignInPage = () => {

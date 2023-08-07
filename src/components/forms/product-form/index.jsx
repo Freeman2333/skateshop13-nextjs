@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Autocomplete, TextField, Button, Box, Grid } from "@mui/material";
+import { Button, Box, Grid, Stack } from "@mui/material";
 import {
   Dropzone,
   FileMosaic,
@@ -15,6 +15,9 @@ import { isArrayOfFile } from "@/utils";
 import { toast } from "react-toastify";
 import { addProductAction, checkProductAction } from "@/app/_actions/product";
 
+import FormInput from "@/components/form-components/form-input";
+import FormAutocomplete from "@/components/form-components/form-autocomplete";
+
 const { useUploadThing } = generateReactHelpers();
 
 const schema = yup.object().shape({
@@ -25,12 +28,7 @@ const schema = yup.object().shape({
 });
 
 const ProductForm = ({ categories }) => {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-    reset,
-  } = useForm({
+  const { handleSubmit, control, reset } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -77,92 +75,33 @@ const ProductForm = ({ categories }) => {
   return (
     <Box maxWidth="sm">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Controller
-          name="name"
-          control={control}
-          defaultValue=""
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Name"
-              fullWidth
-              error={!!errors.name}
-              helperText={errors.name?.message}
-              margin="normal"
-            />
-          )}
-        />
-        <Controller
-          name="description"
-          control={control}
-          defaultValue=""
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Description"
-              fullWidth
-              multiline
-              rows={3}
-              margin="normal"
-            />
-          )}
-        />
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Controller
-              name="category"
-              control={control}
-              defaultValue={categories[0].value}
-              render={({ field }) => (
-                <Autocomplete
-                  {...field}
-                  onChange={(_, val) => field.onChange(val.value)}
-                  options={categories}
-                  isOptionEqualToValue={(option, value) => {
-                    return option.value === value;
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Category"
-                      fullWidth
-                      error={!!errors.category}
-                      helperText={errors.category?.message}
-                      margin="normal"
-                    />
-                  )}
-                  renderOption={(liProps, option) => (
-                    <li {...liProps} key={option.value}>
-                      {option.label}
-                    </li>
-                  )}
-                  getOptionLabel={(option) =>
-                    categories.find((cat) => cat.value === option)?.label || ""
-                  }
-                />
-              )}
-            />
+        <Stack gap="20px">
+          <FormInput name="name" label="Name" control={control} />
+          <FormInput
+            name="description"
+            label="Description"
+            control={control}
+            rows={3}
+            multiline
+          />
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <FormAutocomplete
+                name="category"
+                label="Category"
+                options={categories}
+                control={control}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormInput
+                name="price"
+                label="Price"
+                type="number"
+                control={control}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <Controller
-              name="price"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Price"
-                  type="number"
-                  fullWidth
-                  error={!!errors.price}
-                  helperText={errors.price?.message}
-                  margin="normal"
-                />
-              )}
-            />
-          </Grid>
-        </Grid>
-        <Box paddingY="20px">
           <Dropzone
             onChange={updateFiles}
             minHeight="195px"
@@ -188,16 +127,16 @@ const ProductForm = ({ categories }) => {
           >
             <ImagePreview src={imageSrc} />
           </FullScreen>
-        </Box>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          disabled={isUploading}
-        >
-          Add Product
-        </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            disabled={isUploading}
+          >
+            Add Product
+          </Button>
+        </Stack>
       </form>
     </Box>
   );
