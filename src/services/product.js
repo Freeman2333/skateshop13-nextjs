@@ -6,9 +6,10 @@ export const getProductsList = async ({
   categoriesIds,
   offset,
   limit,
+  user,
 }) => {
-  let productsQuery;
-  let queryValues = [];
+  let productsQuery = `SELECT *, COUNT(*) OVER() AS total_count FROM product WHERE price BETWEEN ? AND ? `;
+  let queryValues = [String(minPrice), String(maxPrice)];
 
   // Create categories placeholder for SQL query
   const categoriesIdsPlaceholders =
@@ -19,26 +20,18 @@ export const getProductsList = async ({
       .join(",");
 
   if (categoriesIds) {
-    productsQuery = `SELECT *, COUNT(*) OVER() AS total_count FROM product WHERE categoryid IN (${categoriesIdsPlaceholders}) AND price BETWEEN ? AND ? LIMIT ? OFFSET ?
-    `;
-    queryValues = [
-      ...categoriesIds.split(","),
-      String(minPrice),
-      String(maxPrice),
-      String(limit),
-      String(offset),
-    ];
-  } else {
-    productsQuery = `SELECT *, COUNT(*) OVER() AS total_count FROM product WHERE price BETWEEN ? AND ? LIMIT ? OFFSET ?
-    `;
-    queryValues = [
-      String(minPrice),
-      String(maxPrice),
-      String(limit),
-      String(offset),
-    ];
+    productsQuery += ` AND categoryid IN (${categoriesIdsPlaceholders}) `;
+    queryValues.push(...categoriesIds.split(","));
   }
 
+  if (user) {
+    productsQuery += ` AND author = ? `;
+    queryValues.push(user?.id);
+  }
+
+  productsQuery += `LIMIT ? OFFSET ?`;
+  queryValues.push(String(limit), String(offset));
+  console.log({ productsQuery, queryValues });
   const res = await query({
     query: productsQuery,
     values: queryValues,
