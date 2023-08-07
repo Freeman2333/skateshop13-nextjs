@@ -9,7 +9,7 @@ export const getProductsList = async ({
   user,
 }) => {
   let productsQuery = `
-    SELECT p.*, c.name AS categoryName, COUNT(*) OVER() AS total_count
+    SELECT p.*, c.name AS category, COUNT(*) OVER() AS total_count
     FROM product p
     JOIN category c ON p.categoryid = c.id
     WHERE p.price BETWEEN ? AND ?
