@@ -8,7 +8,12 @@ export const getProductsList = async ({
   limit,
   user,
 }) => {
-  let productsQuery = `SELECT *, COUNT(*) OVER() AS total_count FROM product WHERE price BETWEEN ? AND ? `;
+  let productsQuery = `
+    SELECT p.*, c.name AS categoryName, COUNT(*) OVER() AS total_count
+    FROM product p
+    JOIN category c ON p.categoryid = c.id
+    WHERE p.price BETWEEN ? AND ?
+  `;
   let queryValues = [String(minPrice), String(maxPrice)];
 
   // Create categories placeholder for SQL query
@@ -20,12 +25,12 @@ export const getProductsList = async ({
       .join(",");
 
   if (categoriesIds) {
-    productsQuery += ` AND categoryid IN (${categoriesIdsPlaceholders}) `;
+    productsQuery += ` AND p.categoryid IN (${categoriesIdsPlaceholders}) `;
     queryValues.push(...categoriesIds.split(","));
   }
 
   if (user) {
-    productsQuery += ` AND author = ? `;
+    productsQuery += ` AND p.author = ? `;
     queryValues.push(user?.id);
   }
 
