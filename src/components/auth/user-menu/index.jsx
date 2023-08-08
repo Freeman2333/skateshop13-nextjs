@@ -80,7 +80,8 @@ export default function UserMenu({ user }) {
           <ListItemIcon>
             <Dashboard fontSize="small" />
           </ListItemIcon>
-          <NextLink href="/dashboard/dashboard">Dashboard</NextLink>
+          {/* TODO: add correct route after fix PR is merged */}
+          <NextLink href="/dashboard">Dashboard</NextLink>
         </MenuItem>
         <MenuItem onClick={async () => await signOut()}>
           <ListItemIcon>
