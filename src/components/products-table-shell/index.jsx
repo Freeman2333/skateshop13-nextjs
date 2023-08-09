@@ -86,7 +86,7 @@ const ProductTableShell = ({ products }) => {
   return (
     <>
       <DataTableToolbar></DataTableToolbar>
-      <ProductsTable products={products} columns={columns}></ProductsTable>
+      <ProductsTable products={products} columns={columns} />
     </>
   );
 };

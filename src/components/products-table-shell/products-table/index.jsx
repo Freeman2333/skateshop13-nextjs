@@ -17,6 +17,8 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+
+import ProductTablePagination from "../product-table-pagination";
 import { paperStyles } from "./styles";
 
 const ProductsTable = ({ products, columns }) => {
@@ -77,6 +79,10 @@ const ProductsTable = ({ products, columns }) => {
         <TableHead>{renderHeaderGroups()}</TableHead>
         <TableBody>{renderTableBody()}</TableBody>
       </Table>
+      <ProductTablePagination
+        table={table}
+        count={products[0]?.["total_count"]}
+      />
     </Paper>
   );
 };
