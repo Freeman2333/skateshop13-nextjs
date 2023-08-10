@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -18,14 +18,38 @@ import {
   TableRow,
 } from "@mui/material";
 
-import ProductTablePagination from "../product-table-pagination";
+import ProductTablePagination from "@/components/products-table-shell/product-table-pagination";
+import DataTableToolbar from "@/components/products-table-shell/products-table-toolbar";
 import { paperStyles } from "./styles";
+import { useDebounce } from "@/hooks/use-debounce";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { createQueryString } from "@/utils";
 
 const ProductsTable = ({ products, columns }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState([]);
   const [sorting, setSorting] = useState([]);
+
+  const debouncedName = useDebounce(
+    columnFilters.find((f) => f.id === "name")?.value,
+    500
+  );
+
+  useEffect(() => {
+    router.push(
+      `${pathname}?${createQueryString(searchParams, {
+        page: 0,
+        name: typeof debouncedName === "string" ? debouncedName : null,
+      })}`
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedName]);
 
   const table = useReactTable({
     data: products,
@@ -74,16 +98,19 @@ const ProductsTable = ({ products, columns }) => {
     ));
 
   return (
-    <Paper elevation={2} sx={paperStyles}>
-      <Table>
-        <TableHead>{renderHeaderGroups()}</TableHead>
-        <TableBody>{renderTableBody()}</TableBody>
-      </Table>
-      <ProductTablePagination
-        table={table}
-        count={products[0]?.["total_count"]}
-      />
-    </Paper>
+    <>
+      <DataTableToolbar table={table} />
+      <Paper elevation={2} sx={paperStyles}>
+        <Table>
+          <TableHead>{renderHeaderGroups()}</TableHead>
+          <TableBody>{renderTableBody()}</TableBody>
+        </Table>
+        <ProductTablePagination
+          table={table}
+          count={products[0]?.["total_count"]}
+        />
+      </Paper>
+    </>
   );
 };
 

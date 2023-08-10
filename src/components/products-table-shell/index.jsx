@@ -2,7 +2,6 @@
 import React, { useMemo } from "react";
 import { Chip, Checkbox } from "@mui/material";
 
-import DataTableToolbar from "@/components/products-table-shell/products-table-toolbar";
 import ProductsTable from "@/components/products-table-shell/products-table";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { ProductRowActions } from "./actions-cell";
@@ -85,7 +84,6 @@ const ProductTableShell = ({ products }) => {
 
   return (
     <>
-      <DataTableToolbar></DataTableToolbar>
       <ProductsTable products={products} columns={columns} />
     </>
   );
