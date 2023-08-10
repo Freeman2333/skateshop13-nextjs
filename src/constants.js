@@ -9,4 +9,5 @@ export const routes = {
   categories: "/categories",
   dashboard: "/dashboard",
   dashboardProducts: "/dashboard/products",
+  dashboardProductsNew: "/dashboard/products/new",
 };
