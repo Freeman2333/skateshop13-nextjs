@@ -8,4 +8,5 @@ export const routes = {
   products: "/products",
   categories: "/categories",
   dashboard: "/dashboard",
+  dashboardProducts: "/dashboard/products",
 };

@@ -13,6 +13,7 @@ import {
   Delete as DeleteIcon,
 } from "@mui/icons-material";
 import NextLink from "@/components/next-link";
+import { routes } from "@/constants";
 
 export function ProductRowActions({ product }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -44,7 +45,7 @@ export function ProductRowActions({ product }) {
         {/* TODO correct routin when PR with routes is merged */}
         <MenuItem
           component={NextLink}
-          href={`/dashboard/products/${product.id}`}
+          href={`${routes.dashboardProducts}/${product.id}`}
         >
           <ListItemIcon>
             <EditIcon />
@@ -52,7 +53,7 @@ export function ProductRowActions({ product }) {
           <ListItemText primary="Edit" />
         </MenuItem>
         {/* TODO correct routin when PR with routes is merged */}
-        <MenuItem component={NextLink} href={`/product/${product.id}`}>
+        <MenuItem component={NextLink} href={`${routes.product}/${product.id}`}>
           <ListItemIcon>
             <VisibilityIcon />
           </ListItemIcon>
