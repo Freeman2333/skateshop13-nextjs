@@ -1,5 +1,8 @@
 "use server";
 import { query } from "@/db";
+import { getServerSession } from "next-auth";
+
+import authOptions from "@/lib/auth";
 
 export async function filterProducts(searchString) {
   const products = await query({

@@ -13,6 +13,7 @@ import {
   Search,
   listStyles,
 } from "./style";
+import { routes } from "@/constants";
 
 const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -54,7 +55,7 @@ const SearchBar = () => {
           <List sx={listStyles}>
             {searchResults.map((product, index) => (
               <ListItem key={index}>
-                <NextLink href={`/product/${product.id}`}>
+                <NextLink href={`${routes.product}/${product.id}`}>
                   {product.name}
                 </NextLink>
               </ListItem>

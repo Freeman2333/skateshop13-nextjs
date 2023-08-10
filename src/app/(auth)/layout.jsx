@@ -12,6 +12,7 @@ import {
   siteLogoStack,
   layoutContainerRight,
 } from "./style";
+import { routes } from "@/constants";
 
 const AuthLayout = ({ children }) => {
   return (
@@ -25,7 +26,7 @@ const AuthLayout = ({ children }) => {
           priority
         />
         <Box sx={layoutContainerLeftBg} />
-        <NextLink href="/" style={siteLogo}>
+        <NextLink href={routes.homePage} style={siteLogo}>
           <Stack sx={siteLogoStack}>
             <Icons.logo aria-hidden="true" />
             <Typography variant="h6">{siteConfig.name}</Typography>

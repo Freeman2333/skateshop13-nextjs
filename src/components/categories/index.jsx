@@ -16,13 +16,17 @@ import {
   cardContentStyle,
   linkStyles,
 } from "./styles";
+import { routes } from "@/constants";
 
 const ProductCategoriesGrid = async () => {
   return (
     <Grid container spacing={2} marginBottom={8}>
       {productCategories.map((category, index) => (
         <Grid item xs={6} sm={6} md={3} key={index}>
-          <NextLink href={`/categories/${category.title}`} style={linkStyles}>
+          <NextLink
+            href={`${routes.categories}/${category.title}`}
+            style={linkStyles}
+          >
             <Card sx={cardStyle}>
               <CardActionArea>
                 <CardMedia

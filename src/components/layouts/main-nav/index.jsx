@@ -24,6 +24,7 @@ import { getCategories } from "@/services/categories";
 import Cart from "@/components/cart-sidebar";
 import authOptions from "@/lib/auth";
 import UserMenu from "@/components/auth/user-menu";
+import { routes } from "@/constants";
 
 const MainNav = async () => {
   const session = await getServerSession(authOptions);
@@ -35,7 +36,7 @@ const MainNav = async () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar sx={toolbarStyles}>
-          <Link href="/" style={linkStyles}>
+          <Link href={routes.homePage} style={linkStyles}>
             <Typography
               variant="h6"
               component={Stack}
@@ -48,7 +49,7 @@ const MainNav = async () => {
           </Link>
           <Grid container spacing={3}>
             <Grid item key="all products">
-              <NextLink href={`/products`}>
+              <NextLink href={routes.products}>
                 <Typography variant="h6" textTransform={"capitalize"}>
                   All
                 </Typography>
@@ -56,7 +57,7 @@ const MainNav = async () => {
             </Grid>
             {categories.map((category) => (
               <Grid item key={category.id}>
-                <NextLink href={`/categories/${category.name}`}>
+                <NextLink href={`${routes.categories}/${category.name}`}>
                   <Typography variant="h6" textTransform={"capitalize"}>
                     {category.name}
                   </Typography>
@@ -70,7 +71,7 @@ const MainNav = async () => {
             <UserMenu user={user} />
           ) : (
             <Button color="inherit" variant="outlined" sx={signInButtonStyles}>
-              <NextLink href="/signin">Sign In</NextLink>
+              <NextLink href={routes.signIn}>Sign In</NextLink>
             </Button>
           )}
         </Toolbar>
