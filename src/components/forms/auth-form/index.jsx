@@ -19,9 +19,11 @@ import {
   containerStyle,
   fullwidthStyles,
   dividerStyle,
+  nextLinkStyles,
 } from "./styles";
 import NextLink from "@/components/next-link";
-import { siteConfig } from "@/config/site.consts";
+import { routes } from "@/constants";
+import FormInput from "@/components/form-components/form-input";
 
 const AuthForm = ({ submitHandler, isSignin }) => {
   const validationSchema = yup.object().shape({
@@ -53,7 +55,7 @@ const AuthForm = ({ submitHandler, isSignin }) => {
   const signinWithGoogle = async () => {
     try {
       await signIn("google", {
-        callbackUrl: siteConfig.devHomeUrl,
+        callbackUrl: routes.homePage,
       });
       toast.success("welcome!");
     } catch (error) {
@@ -78,70 +80,20 @@ const AuthForm = ({ submitHandler, isSignin }) => {
         component="form"
         sx={formBoxStyles}
       >
-        {!isSignin && (
-          <Controller
-            name="name"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Name"
-                variant="outlined"
-                fullWidth
-                error={!!errors.name}
-                helperText={errors.name?.message}
-              />
-            )}
-          />
-        )}
-        <Controller
-          name="email"
-          control={control}
-          defaultValue=""
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Email"
-              variant="outlined"
-              fullWidth
-              error={!!errors.email}
-              helperText={errors.email?.message}
-            />
-          )}
-        />
-        <Controller
+        {!isSignin && <FormInput name="name" control={control} label="Name" />}
+        <FormInput name="email" control={control} label="Email" />
+        <FormInput
           name="password"
           control={control}
-          defaultValue=""
-          render={({ field }) => (
-            <TextField
-              {...field}
-              type="password"
-              label="Password"
-              variant="outlined"
-              fullWidth
-              error={!!errors.password}
-              helperText={errors.password?.message}
-            />
-          )}
+          label="Password"
+          type="password"
         />
         {!isSignin && (
-          <Controller
+          <FormInput
             name="confirmPassword"
             control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                type="password"
-                label="Confirm Password"
-                variant="outlined"
-                fullWidth
-                error={!!errors.confirmPassword}
-                helperText={errors.confirmPassword?.message}
-              />
-            )}
+            label="Confirm Password"
+            type="password"
           />
         )}
         <Button type="submit" variant="contained" color="primary">
@@ -152,14 +104,14 @@ const AuthForm = ({ submitHandler, isSignin }) => {
         {isSignin ? (
           <>
             Don't have an account?{" "}
-            <NextLink href="/signup" style={{ color: "black" }}>
+            <NextLink href={routes.signUp} style={nextLinkStyles}>
               Sign up
             </NextLink>
           </>
         ) : (
           <>
             Already have an account?{" "}
-            <NextLink href="/signin" style={{ color: "black" }}>
+            <NextLink href={routes.signIn} style={nextLinkStyles}>
               Sign in
             </NextLink>
           </>

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 import AuthForm from "@/components/forms/auth-form";
-import { siteConfig } from "@/config/site.consts";
+import { routes } from "@/constants";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -16,11 +16,11 @@ const SignInPage = () => {
         email: formValues.email,
         password: formValues.password,
         name: formValues.name,
-        callbackUrl: siteConfig.devHomeUrl,
+        callbackUrl: routes.homePage,
       });
       if (!res?.error) {
         toast.success(`welcome!`);
-        router.push(siteConfig.devHomeUrl);
+        router.push(routes.homePage);
       } else {
         toast.error("invalid email or password");
       }
