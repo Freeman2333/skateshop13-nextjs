@@ -12,6 +12,7 @@ const DashboardPage = async ({ searchParams }) => {
     price_range,
     categories: categoriesIds,
     per_page = 10,
+    name,
   } = searchParams;
 
   const minPrice = price_range ? price_range.split("-")[0] : String(0);
@@ -29,6 +30,7 @@ const DashboardPage = async ({ searchParams }) => {
     offset,
     limit,
     user,
+    productName: name,
   });
 
   return (
