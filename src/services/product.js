@@ -1,3 +1,6 @@
+"use server";
+import { revalidatePath } from "next/cache";
+
 import { query } from "@/db";
 
 export const getProductsList = async ({
@@ -61,3 +64,17 @@ export const getSingleProduct = async (productId) => {
   const [product] = await query({ query: productQuery, values: [productId] });
   return product;
 };
+
+export async function deleteProductById(productId) {
+  const deleteQuery = `
+    DELETE FROM product
+    WHERE id = :productId
+  `;
+
+  await query({
+    query: deleteQuery,
+    values: { productId },
+  });
+
+  revalidatePath(`/dashboard`);
+}
