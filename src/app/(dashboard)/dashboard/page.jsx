@@ -37,7 +37,6 @@ const DashboardPage = async ({ searchParams }) => {
     <>
       <PageHeader title={"Your products"} description="Manage your products" />
       <DataTableShell products={products}></DataTableShell>
-      DashboardPage
     </>
   );
 };

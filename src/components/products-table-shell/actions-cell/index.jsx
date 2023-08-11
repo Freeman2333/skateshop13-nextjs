@@ -12,8 +12,11 @@ import {
   Visibility as VisibilityIcon,
   Delete as DeleteIcon,
 } from "@mui/icons-material";
+import { toast } from "react-toastify";
+
 import NextLink from "@/components/next-link";
 import { routes } from "@/constants";
+import { deleteProductById } from "@/services/product";
 
 export function ProductRowActions({ product }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -24,6 +27,15 @@ export function ProductRowActions({ product }) {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleDeleteProduct = async () => {
+    try {
+      await deleteProductById(product.id);
+      toast.success("Product deleted");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -52,14 +64,13 @@ export function ProductRowActions({ product }) {
           </ListItemIcon>
           <ListItemText primary="Edit" />
         </MenuItem>
-        {/* TODO correct routin when PR with routes is merged */}
         <MenuItem component={NextLink} href={`${routes.product}/${product.id}`}>
           <ListItemIcon>
             <VisibilityIcon />
           </ListItemIcon>
           <ListItemText primary="View" />
         </MenuItem>
-        <MenuItem onClick={() => {}}>
+        <MenuItem onClick={handleDeleteProduct}>
           <ListItemIcon>
             <DeleteIcon />
           </ListItemIcon>
