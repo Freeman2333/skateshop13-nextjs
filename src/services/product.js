@@ -7,6 +7,7 @@ export const getProductsList = async ({
   offset,
   limit,
   user,
+  productName,
 }) => {
   let productsQuery = `
     SELECT p.*, c.name AS category, COUNT(*) OVER() AS total_count
@@ -32,6 +33,11 @@ export const getProductsList = async ({
   if (user) {
     productsQuery += ` AND p.author = ? `;
     queryValues.push(user?.id);
+  }
+
+  if (productName) {
+    productsQuery += ` AND LOWER(p.name) LIKE ? `;
+    queryValues.push(`%${productName.toLowerCase()}%`);
   }
 
   productsQuery += `LIMIT ? OFFSET ?`;
