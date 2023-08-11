@@ -5,6 +5,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import NextLink from "@/components/next-link";
 import { routes } from "@/constants";
 import DataTableViewOptions from "../data-table-view-options";
+import DataTableCategoriesFilter from "../data-table-categories-filter";
 
 const DataTableToolbar = ({ table }) => {
   return (
@@ -17,6 +18,7 @@ const DataTableToolbar = ({ table }) => {
           table.getColumn("name")?.setFilterValue(event.target.value)
         }
       />
+      <DataTableCategoriesFilter />
       <Button
         variant="outlined"
         color="primary"

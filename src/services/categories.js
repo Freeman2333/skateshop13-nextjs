@@ -1,3 +1,4 @@
+"use server";
 import { query } from "@/db";
 
 export const getCategories = async () => {
