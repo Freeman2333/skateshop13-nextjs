@@ -54,7 +54,6 @@ export function ProductRowActions({ product }) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {/* TODO correct routin when PR with routes is merged */}
         <MenuItem
           component={NextLink}
           href={`${routes.dashboardProducts}/${product.id}`}
@@ -64,7 +63,10 @@ export function ProductRowActions({ product }) {
           </ListItemIcon>
           <ListItemText primary="Edit" />
         </MenuItem>
-        <MenuItem component={NextLink} href={`${routes.product}/${product.id}`}>
+        <MenuItem
+          component={NextLink}
+          href={`${routes.products}/${product.id}`}
+        >
           <ListItemIcon>
             <VisibilityIcon />
           </ListItemIcon>

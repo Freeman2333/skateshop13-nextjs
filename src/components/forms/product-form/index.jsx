@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Button, Box, Grid, Stack } from "@mui/material";
@@ -13,10 +13,15 @@ import {
 import { generateReactHelpers } from "@uploadthing/react/hooks";
 import { isArrayOfFile } from "@/utils";
 import { toast } from "react-toastify";
-import { addProductAction, checkProductAction } from "@/app/_actions/product";
+import {
+  addProductAction,
+  checkProductAction,
+  updateProductAction,
+} from "@/app/_actions/product";
 
 import FormInput from "@/components/form-components/form-input";
 import FormAutocomplete from "@/components/form-components/form-autocomplete";
+import { createImageObjectFromURL } from "@/utils";
 
 const { useUploadThing } = generateReactHelpers();
 
@@ -27,7 +32,7 @@ const schema = yup.object().shape({
   price: yup.number().required("Price is required").positive().integer(),
 });
 
-const ProductForm = ({ categories }) => {
+const ProductForm = ({ categories, product }) => {
   const { handleSubmit, control, reset } = useForm({
     resolver: yupResolver(schema),
   });
@@ -37,26 +42,49 @@ const ProductForm = ({ categories }) => {
 
   const { isUploading, startUpload } = useUploadThing("productImage");
 
+  const addProduct = async (data) => {
+    await checkProductAction(data.name);
+
+    const files = extFiles.map((item) => item.file);
+    const imageSrc = isArrayOfFile(files)
+      ? await startUpload(files).then((res) => {
+          return res[0]?.fileUrl ?? null;
+        })
+      : null;
+
+    await addProductAction({
+      ...data,
+      image: imageSrc,
+    });
+
+    toast.success("Product added successfully.");
+  };
+
+  const updateProduct = async (data) => {
+    const files = extFiles.map((item) => item.file);
+    const imageSrc = isArrayOfFile(files)
+      ? await startUpload(files).then((res) => {
+          return res[0]?.fileUrl ?? null;
+        })
+      : null;
+
+    await updateProductAction(product.id, {
+      ...data,
+      image: imageSrc,
+    });
+
+    toast.success("Product updated successfully.");
+  };
+
   const onSubmit = async (data) => {
     try {
-      await checkProductAction(data.name);
-
-      const files = extFiles.map((item) => item.file);
-      const imageSrc = isArrayOfFile(files)
-        ? await startUpload(files).then((res) => {
-            return res[0].fileUrl ?? null;
-          })
-        : null;
-
-      await addProductAction({
-        ...data,
-        image: imageSrc,
-      });
-
-      toast.success("Product added successfully.");
-
+      if (product) {
+        await updateProduct(data);
+      } else {
+        await addProduct(data);
+      }
       reset();
-      setExtFiles(null);
+      setExtFiles([]);
     } catch (error) {
       toast.error(error.message);
     }
@@ -71,6 +99,20 @@ const ProductForm = ({ categories }) => {
   const handleSee = (imageSource) => {
     setImageSrc(imageSource);
   };
+
+  useEffect(() => {
+    if (!product) {
+      return;
+    }
+
+    reset(product);
+
+    if (product.image) {
+      createImageObjectFromURL(product?.image).then((image) => {
+        setExtFiles([image]);
+      });
+    }
+  }, [product]);
 
   return (
     <Box maxWidth="sm">

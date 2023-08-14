@@ -58,3 +58,23 @@ export function isArrayOfFile(files) {
   if (!isArray) return false;
   return files.every((file) => file instanceof File);
 }
+
+export async function createImageObjectFromURL(imageUrl) {
+  const response = await fetch(imageUrl);
+  const blob = await response.blob();
+
+  const imageObject = {
+    errors: undefined,
+    file: new File([blob], "image.jpg", {
+      lastModified: Date.now(),
+      type: "image/jpeg",
+    }),
+    id: Date.now(),
+    name: "image.jpg",
+    size: blob.size,
+    type: "image/jpeg",
+    valid: true,
+  };
+
+  return imageObject;
+}
