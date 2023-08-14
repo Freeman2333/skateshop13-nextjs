@@ -9,6 +9,9 @@ while developing the project we use local database. You need
 1. Install dBeaver https://dbeaver.io/download/
 2. Install Mysql https://dev.mysql.com/downloads/installer/
 3. Import Database
+   a. create a new database in dBeaver
+   b. go to tools>restore database> and select db dump provided in the root of the project
+   c. provide credentials in .env file
 
 To install the project dependencies, run the following command:
 

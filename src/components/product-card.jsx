@@ -11,14 +11,21 @@ import {
 import NextLink from "./next-link";
 
 import CartStore from "@/store/cart.store";
+import { routes } from "@/constants";
 
 const ProductCard = ({ product }) => {
   const { name, price, image } = product;
 
   return (
     <Card data-testid="product-card">
-      <NextLink href={`/product/${product.id}`}>
-        <CardMedia component="img" image={image} alt={name} />
+      <NextLink href={`${routes.product}/${product.id}`}>
+        <CardMedia
+          component="img"
+          image={image}
+          alt={name}
+          height={200}
+          sx={{ objectFit: "cover" }}
+        />
         <CardContent>
           <Typography variant="h5" component="div">
             {name}
