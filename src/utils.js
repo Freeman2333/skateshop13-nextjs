@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const createQueryString = (searchParams, params) => {
   const newSearchParams = new URLSearchParams(searchParams?.toString());
 
@@ -39,3 +41,20 @@ export const getTotalCount = (takeObject) => {
     return obj.countItem ? obj.countItem + sum : sum;
   }, 0);
 };
+
+export const formatDate = (dateString, format = "MMMM D, YYYY") => {
+  const originalDate = new Date(dateString);
+  return moment(originalDate).format(format);
+};
+export const createCategoriesOptions = (categories) => {
+  return (categories || []).map((cat) => ({
+    value: String(cat.id),
+    label: capitalizeWord(cat.name),
+  }));
+};
+
+export function isArrayOfFile(files) {
+  const isArray = Array.isArray(files);
+  if (!isArray) return false;
+  return files.every((file) => file instanceof File);
+}

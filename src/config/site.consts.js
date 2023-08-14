@@ -2,7 +2,6 @@ import { productCategories } from "./products.consts";
 
 export const siteConfig = {
   name: "Skateshop",
-  devHomeUrl: "/",
   apiUrl: "/api",
   description:
     "An open source e-commerce skateshop build with everything new in Next.js 13.",
