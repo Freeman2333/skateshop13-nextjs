@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const createQueryString = (searchParams, params) => {
   const newSearchParams = new URLSearchParams(searchParams?.toString());
 
@@ -40,6 +42,10 @@ export const getTotalCount = (takeObject) => {
   }, 0);
 };
 
+export const formatDate = (dateString, format = "MMMM D, YYYY") => {
+  const originalDate = new Date(dateString);
+  return moment(originalDate).format(format);
+};
 export const createCategoriesOptions = (categories) => {
   return (categories || []).map((cat) => ({
     value: String(cat.id),
