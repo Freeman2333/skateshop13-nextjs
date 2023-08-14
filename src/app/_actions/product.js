@@ -3,6 +3,8 @@ import { query } from "@/db";
 import { getServerSession } from "next-auth";
 
 import authOptions from "@/lib/auth";
+import { revalidatePath } from "next/cache";
+import { routes } from "@/constants";
 
 export async function filterProducts(searchString) {
   const products = await query({
@@ -34,22 +36,32 @@ export async function checkProductAction(productName) {
 export async function addProductAction(input) {
   const session = await getServerSession(authOptions);
 
-  try {
-    await query({
-      query:
-        "INSERT INTO product (name, description, categoryid, price, image, author) VALUES (?, ?, ?, ?, ?, ?)",
-      values: [
-        input.name,
-        input.description,
-        input.category,
-        input.price,
-        input.image,
-        session?.user?.id,
-      ],
-    });
-  } catch (error) {
-    // Handle the error here, e.g., log or throw
-    console.error("Error adding product:", error.message);
-    throw error;
-  }
+  await query({
+    query:
+      "INSERT INTO product (name, description, categoryid, price, image, author) VALUES (?, ?, ?, ?, ?, ?)",
+    values: [
+      input.name,
+      input.description,
+      input.category,
+      input.price,
+      input.image,
+      session?.user?.id,
+    ],
+  });
+}
+
+export async function updateProductAction(id, input) {
+  await query({
+    query:
+      "UPDATE product SET name = ?, description = ?, categoryid = ?, price = ?, image = ? WHERE id = ? ",
+    values: [
+      input.name,
+      input.description,
+      input.category,
+      input.price,
+      input.image,
+      id,
+    ],
+  });
+  revalidatePath(`${routes.dashboardProducts}/${id}`);
 }
