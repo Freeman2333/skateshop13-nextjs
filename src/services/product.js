@@ -11,6 +11,7 @@ export const getProductsList = async ({
   limit,
   user,
   productName,
+  sort,
 }) => {
   let productsQuery = `
     SELECT p.*, c.name AS category, COUNT(*) OVER() AS total_count
@@ -43,7 +44,12 @@ export const getProductsList = async ({
     queryValues.push(`%${productName.toLowerCase()}%`);
   }
 
-  productsQuery += `LIMIT ? OFFSET ?`;
+  if (sort) {
+    const [column, order] = sort.split(".");
+    productsQuery += ` ORDER BY ${column} ${order.toUpperCase()}`;
+  }
+
+  productsQuery += ` LIMIT ? OFFSET ?`;
   queryValues.push(String(limit), String(offset));
 
   const res = await query({
