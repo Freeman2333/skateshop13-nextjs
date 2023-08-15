@@ -1,3 +1,6 @@
+"use server";
+import { revalidatePath } from "next/cache";
+
 import { query } from "@/db";
 
 export const getProductsList = async ({
@@ -6,9 +9,16 @@ export const getProductsList = async ({
   categoriesIds,
   offset,
   limit,
+  user,
+  productName,
 }) => {
-  let productsQuery;
-  let queryValues = [];
+  let productsQuery = `
+    SELECT p.*, c.name AS category, COUNT(*) OVER() AS total_count
+    FROM product p
+    JOIN category c ON p.categoryid = c.id
+    WHERE p.price BETWEEN ? AND ?
+  `;
+  let queryValues = [String(minPrice), String(maxPrice)];
 
   // Create categories placeholder for SQL query
   const categoriesIdsPlaceholders =
@@ -19,25 +29,22 @@ export const getProductsList = async ({
       .join(",");
 
   if (categoriesIds) {
-    productsQuery = `SELECT *, COUNT(*) OVER() AS total_count FROM product WHERE categoryid IN (${categoriesIdsPlaceholders}) AND price BETWEEN ? AND ? LIMIT ? OFFSET ?
-    `;
-    queryValues = [
-      ...categoriesIds.split(","),
-      String(minPrice),
-      String(maxPrice),
-      String(limit),
-      String(offset),
-    ];
-  } else {
-    productsQuery = `SELECT *, COUNT(*) OVER() AS total_count FROM product WHERE price BETWEEN ? AND ? LIMIT ? OFFSET ?
-    `;
-    queryValues = [
-      String(minPrice),
-      String(maxPrice),
-      String(limit),
-      String(offset),
-    ];
+    productsQuery += ` AND p.categoryid IN (${categoriesIdsPlaceholders}) `;
+    queryValues.push(...categoriesIds.split(","));
   }
+
+  if (user) {
+    productsQuery += ` AND p.author = ? `;
+    queryValues.push(user?.id);
+  }
+
+  if (productName) {
+    productsQuery += ` AND LOWER(p.name) LIKE ? `;
+    queryValues.push(`%${productName.toLowerCase()}%`);
+  }
+
+  productsQuery += `LIMIT ? OFFSET ?`;
+  queryValues.push(String(limit), String(offset));
 
   const res = await query({
     query: productsQuery,
@@ -57,3 +64,17 @@ export const getSingleProduct = async (productId) => {
   const [product] = await query({ query: productQuery, values: [productId] });
   return product;
 };
+
+export async function deleteProductById(productId) {
+  const deleteQuery = `
+    DELETE FROM product
+    WHERE id = :productId
+  `;
+
+  await query({
+    query: deleteQuery,
+    values: { productId },
+  });
+
+  revalidatePath(`/dashboard`);
+}
