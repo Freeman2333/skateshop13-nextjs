@@ -63,10 +63,7 @@ export function ProductRowActions({ product }) {
           </ListItemIcon>
           <ListItemText primary="Edit" />
         </MenuItem>
-        <MenuItem
-          component={NextLink}
-          href={`${routes.products}/${product.id}`}
-        >
+        <MenuItem component={NextLink} href={`${routes.product}/${product.id}`}>
           <ListItemIcon>
             <VisibilityIcon />
           </ListItemIcon>
