@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => {
   const { name, price, image } = product;
 
   return (
-    <Card>
+    <Card data-testid="product-card">
       <NextLink href={`${routes.product}/${product.id}`}>
         <CardMedia
           component="img"
@@ -36,18 +36,14 @@ const ProductCard = ({ product }) => {
         </CardContent>
       </NextLink>
       <CardContent>
-        <Stack gap={2} direction={"horizontal"}>
-          <Button
-            variant="outlined"
-            color="primary"
-            component={NextLink}
-            href={`/product/${product.id}`}
-          >
-            Preview
+        <Stack gap={2} direction={"row"}>
+          <Button variant="outlined" color="primary">
+            <NextLink href={`/product/${product.id}`}>Preview</NextLink>
           </Button>
           <Button
             variant="contained"
             color="primary"
+            className="button--add"
             onClick={() => CartStore.addProductToCart(product)}
           >
             Add to Cart
