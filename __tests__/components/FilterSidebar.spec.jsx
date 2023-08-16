@@ -1,7 +1,6 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import ProductFilterSidebar from "@/components/product-filter-sidebar";
-import { useRouter } from "next/navigation";
 
 // Mock useRouter and useSearchParams
 jest.mock("next/navigation", () => ({
@@ -21,11 +20,9 @@ const categories = [
 ];
 
 describe("ProductFilterSidebar", () => {
-  let screen;
-
   beforeEach(() => {
     // Render the component for each test case
-    screen = render(<ProductFilterSidebar categories={categories} />);
+    render(<ProductFilterSidebar categories={categories} />);
   });
 
   it("sidebar opens when 'Filter' button is clicked", () => {
