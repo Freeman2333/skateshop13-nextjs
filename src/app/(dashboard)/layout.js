@@ -16,7 +16,7 @@ export default async function Layout({ children }) {
     <>
       <SiteHeader />
       <Container maxWidth="xl">
-        <Box paddingTop={4}>{children}</Box>
+        <Box paddingY={4}>{children}</Box>
       </Container>
     </>
   );
