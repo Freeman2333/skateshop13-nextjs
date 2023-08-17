@@ -11,7 +11,7 @@ import { getCategories } from "@/services/categories";
 const PAGE_SIZE = 8;
 
 const ProductsPage = async ({ searchParams }) => {
-  const { page, price_range, categories: categoriesIds } = searchParams;
+  const { page, price_range, categories: categoriesIds, sort } = searchParams;
 
   const minPrice = price_range ? price_range.split("-")[0] : String(0);
   const maxPrice = price_range ? price_range.split("-")[1] : String(500);
@@ -26,6 +26,7 @@ const ProductsPage = async ({ searchParams }) => {
     categoriesIds,
     offset,
     limit,
+    sort: typeof sort === "string" ? sort : null,
   });
 
   if (!products?.length) {
