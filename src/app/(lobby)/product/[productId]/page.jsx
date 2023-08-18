@@ -5,17 +5,37 @@ import { dividerStyle } from "./styles";
 import { getSingleProduct } from "@/services/product";
 
 import ProductControls from "@/components/product-controls";
+import Breadcrumbs from "@/components/breadcrumbs";
+import { routes } from "@/constants";
 
 const ProductPage = async ({ params }) => {
   const { productId } = params;
 
   const product = await getSingleProduct(productId);
 
+  const breadcrumbItems = [
+    {
+      title: "Products",
+      href: routes.products,
+    },
+    {
+      title: product.categoryName,
+      href: `${routes.categories}/${product.categoryName}`,
+    },
+    {
+      title: product.name,
+      href: `/product/${product.id}`,
+    },
+  ];
+
   return (
     <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Breadcrumbs breadcrumbItems={breadcrumbItems} />
+      </Grid>
       <Grid item xs={12} lg={6}>
         <Image
-          src="http://dummyimage.com/600x400.png/dddddd/000000"
+          src={product.image}
           width={600}
           height={400}
           alt="Product Image"
