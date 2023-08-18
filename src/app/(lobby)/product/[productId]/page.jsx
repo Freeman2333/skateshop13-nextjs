@@ -13,25 +13,25 @@ const ProductPage = async ({ params }) => {
 
   const product = await getSingleProduct(productId);
 
+  const breadcrumbItems = [
+    {
+      title: "Products",
+      href: routes.products,
+    },
+    {
+      title: product.categoryName,
+      href: `${routes.categories}/${product.categoryName}`,
+    },
+    {
+      title: product.name,
+      href: `/product/${product.id}`,
+    },
+  ];
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Breadcrumbs
-          breadcrumbItems={[
-            {
-              title: "Products",
-              href: routes.products,
-            },
-            {
-              title: product.categoryName,
-              href: `${routes.categories}/${product.categoryName}`,
-            },
-            {
-              title: product.name,
-              href: `/product/${product.id}`,
-            },
-          ]}
-        />
+        <Breadcrumbs breadcrumbItems={breadcrumbItems} />
       </Grid>
       <Grid item xs={12} lg={6}>
         <Image
